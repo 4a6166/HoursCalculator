@@ -18,9 +18,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hours Calculator</title>
     <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="https://unpkg.com/knopf.css/knopf.min.css">
+    <link rel="stylesheet" href="./knopf.css">
 </head>
 <body>
+    <div class="wrapper">
     <h1>Monthly Billable Hours Calculator</h1>
 
 <!-- Header Inputs -->
@@ -174,31 +175,33 @@
     </table>
 
 <!-- Submit-->
-    <button id="calculate" class="knopf" onclick="calcHours()">Calculate</button>
+<div class="buttons">
+    <button id="calculate" class="knopf" onclick="calcHours()" >Calculate</button>
     <!-- <a class="allsides-5" onclick="calcHours()">Calculate</a> -->
-    <button id="reset" class="knopf flat" onclick="resetFields()">Reset</button>
+    <button id="reset" class="knopf flat" onclick="resetFields()" style="margin-left: 15px;">Reset</button>
     <!-- <a  class="allsides-5" onclick="resetFields()">Reset</a> -->
+</div>
 
 <!-- Outputs -->
-<div>
-    <div>
+<div id="outputs" class="outputs">
+    <div class="inline">
         <div>Months Remaining:</div>
-        <div id="monthsLeft">0</div>
+        <div id="monthsLeft" class="bold">0</div>
     </div>
-    <div>
+    <div class="inline">
         <div>Hours Remaining:</div>
-        <div id="hrsLeftBillable">0</div>
+        <div id="hrsLeftBillable" class="bold">0</div>
     </div>
-    <div>
+    <div class="inline">
         <div>Pro Bono Hours Remaining:</div>
-        <div id="hrsLeftProBono">0</div>
+        <div id="hrsLeftProBono" class="bold">0</div>
     </div>
-    <div>
+    <div class="inline">
         <div>Hours Remaining Per Month:</div>
-        <div id="hrsLeftPerMonth">0</div>
+        <div id="hrsLeftPerMonth" class="bold">0</div>
     </div>
 </div>
-    
+    </div>
 </body>
 
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
