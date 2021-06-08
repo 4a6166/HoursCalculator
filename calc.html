@@ -1,0 +1,206 @@
+<!-- CRUD walkthrough: https://www.codemag.com/article/1511031/CRUD-in-HTML-JavaScript-and-jQuery -->
+
+<!--
+    reasonable{
+        Annual Requirement: 2100;
+        Pro Bono: 30;
+        Beginning Month: Jan;
+
+        hrs/mo: ~180-200;
+    }
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hours Calculator</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://unpkg.com/knopf.css/knopf.min.css">
+</head>
+<body>
+    <h1>Monthly Billable Hours Calculator</h1>
+
+<!-- Header Inputs -->
+<div>
+    <div>
+        <div>Annual Billable Hour Requirement</div>
+        <input required type="number" id="BillHrReq" placeholder="2300">
+    </div>
+    <div>
+        <div>Other Hours Counting Towards Requirement (Pro Bono, etc.)</div>
+        <input type="number" id="PBHrs" placeholder="20">
+    </div>
+    <div>
+        <div>Beginning Month of the Billable Year</div>
+        <!-- <input id="billableYearMonth" type="date" > -->
+        <select id="billableYearMonth" class="billableYearMonth">
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+        </select>
+        </div>
+    </div>
+<!-- Table -->
+    <table id="hrsTable" >
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Billable Hours</th>
+                <th>Pro Bono & Other Hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>January</td>
+                <td style="padding: 0;">
+                    <input class="billable" type="number" placeholder="0">
+                </td>
+                <td style="padding: 0;">
+                    <input class="probono" type="number" placeholder="0">
+                </td>
+            </tr>
+            <tr>
+                <td>February</td>
+                <td style="padding: 0;">
+                    <input class="billable" type="number" placeholder="0">
+                </td>
+                <td style="padding: 0;">
+                    <input class="probono" type="number" placeholder="0">
+                </td>
+            </tr>
+            <tr>
+                <td>March</td>
+                <td style="padding: 0;">
+                    <input class="billable" type="number" placeholder="0">
+                </td>
+                <td style="padding: 0;">
+                    <input class="probono" type="number" placeholder="0">
+                </td>
+            </tr>
+            <tr>
+                <td>April</td>
+                <td style="padding: 0;">
+                    <input class="billable" type="number" placeholder="0">
+                </td>
+                <td style="padding: 0;">
+                    <input class="probono" type="number" placeholder="0">
+                </td>
+            </tr>
+            <tr>
+                <td>May</td>
+                <td style="padding: 0;">
+                    <input class="billable" type="number" placeholder="0">
+                </td>
+                <td style="padding: 0;">
+                    <input class="probono" type="number" placeholder="0">
+                </td>
+            </tr>
+            <tr>
+                <td>June</td>
+                <td style="padding: 0;">
+                    <input class="billable" type="number" placeholder="0">
+                </td>
+                <td style="padding: 0;">
+                    <input class="probono" type="number" placeholder="0">
+                </td>
+            </tr>
+            <tr>
+                <td>July</td>
+                <td style="padding: 0;">
+                    <input class="billable" type="number" placeholder="0">
+                </td>
+                <td style="padding: 0;">
+                    <input class="probono" type="number" placeholder="0">
+                </td>
+            </tr>
+            <tr>
+                <td>August</td>
+                <td style="padding: 0;">
+                    <input class="billable" type="number" placeholder="0">
+                </td>
+                <td style="padding: 0;">
+                    <input class="probono" type="number" placeholder="0">
+                </td>
+            </tr>
+            <tr>
+                <td>September</td>
+                <td style="padding: 0;">
+                    <input class="billable" type="number" placeholder="0">
+                </td>
+                <td style="padding: 0;">
+                    <input class="probono" type="number" placeholder="0">
+                </td>
+            </tr>
+            <tr>
+                <td>October</td>
+                <td style="padding: 0;">
+                    <input class="billable" type="number" placeholder="0">
+                </td>
+                <td style="padding: 0;">
+                    <input class="probono" type="number" placeholder="0">
+                </td>
+            </tr>
+            <tr>
+                <td>November</td>
+                <td style="padding: 0;">
+                    <input class="billable" type="number" placeholder="0">
+                </td>
+                <td style="padding: 0;">
+                    <input class="probono" type="number" placeholder="0">
+                </td>
+            </tr>
+            <tr>
+                <td>December</td>
+                <td style="padding: 0;">
+                    <input class="billable" type="number" placeholder="0">
+                </td>
+                <td style="padding: 0;">
+                    <input class="probono" type="number" placeholder="0">
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+<!-- Submit-->
+    <button id="calculate" class="knopf" onclick="calcHours()">Calculate</button>
+    <!-- <a class="allsides-5" onclick="calcHours()">Calculate</a> -->
+    <button id="reset" class="knopf flat" onclick="resetFields()">Reset</button>
+    <!-- <a  class="allsides-5" onclick="resetFields()">Reset</a> -->
+
+<!-- Outputs -->
+<div>
+    <div>
+        <div>Months Remaining:</div>
+        <div id="monthsLeft">0</div>
+    </div>
+    <div>
+        <div>Hours Remaining:</div>
+        <div id="hrsLeftBillable">0</div>
+    </div>
+    <div>
+        <div>Pro Bono Hours Remaining:</div>
+        <div id="hrsLeftProBono">0</div>
+    </div>
+    <div>
+        <div>Hours Remaining Per Month:</div>
+        <div id="hrsLeftPerMonth">0</div>
+    </div>
+</div>
+    
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="./app.js" type="text/JavaScript"></script>
+</html>

@@ -1,0 +1,77 @@
+body {
+    color: inherit;
+    hyphens: auto;
+    -ms-hyphens: auto;
+    -moz-hyphens: auto;
+    -webkit-hyphens: auto;
+}
+h1 {
+    color: purple;
+}
+table {
+    background-color: rgb(194, 199, 194);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    position: relative; 
+    top: 15px;
+}
+table, thead, tbody, th, td {
+    border: 1px solid lightgray;
+    /* border-radius: 5px; */
+    border-collapse: collapse;
+}
+table > thead {
+    align-items: flex-start;
+    color: red;
+}
+th, td {
+    padding: 10px;
+}
+
+
+input {
+    padding: 5px;
+    text-align: center;
+    border: none;
+    background-color: inherit;
+}
+
+div > input {
+    border: 1px solid black;
+}
+div > input[type="number"] {
+    background-color: rgb(83, 172, 83);
+}
+p {
+    line-height: 25px;
+}
+a {
+    display: inline-block;
+    padding: 10px 20px;
+    text-align: center;
+    align-items: center;
+    margin: 10px;
+}
+a:hover{
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+.allsides-5 {
+    background:
+        linear-gradient(currentColor 0 0) var(--d, 0) 0,
+        linear-gradient(currentColor 0 0) 0 var(--d, 0),
+        linear-gradient(currentColor 0 0) var(--p, 100%) 100%,
+        linear-gradient(currentColor 0 0) 100% var(--p, 100%);
+    background-size: var(--d, 0) 2px, 2px var(--d, 0);
+    background-repeat: no-repeat;
+    transition: 0.5s, background-position 0s 0.5s;
+}
+.allsides-5:hover {
+    --d: 100%;
+    --p: 0%
+}
+
+@media only screen and (max-width: 600px){
+    body {
+background-color: rgba(154, 233, 139, 0.5);
+    }
+}
