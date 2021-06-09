@@ -3,16 +3,53 @@ const billableYearMonthPicker = document.querySelector('.billableYearMonth');
 const picker = $("#billableYearMonth");
 billableYearMonthPicker.addEventListener('change', updateTableEvent);
 
-function updateTableEvent(e) {
+const annualBillReq = document.querySelector('#BillHrReq');
+annualBillReq.addEventListener('change', updateTableEvent);
+
+const otherHrs = document.querySelector('#PBHrs');
+otherHrs.addEventListener('change', updateTableEvent);
+
+function updateTableEvent(e) { 
     updateTable();
+    setLocalStorage();
+}
+
+function setLocalStorage(){
+    let billableYearMonth = $("#billableYearMonth").find(":selected").val();
+    localStorage.setItem("billableYearMonth", billableYearMonth);
+
+    let annualBillReq = $("#BillHrReq").val();
+    localStorage.setItem("annualBillReq", annualBillReq);
+
+    let otherHrs = $("#PBHrs").val();
+    localStorage.setItem("otherHrs", otherHrs);
+}
+
+function getFromLocalStorage(){
+    let annualBillReq = Number(localStorage.getItem("annualBillReq"));
+    let annualBillReqInput = $("#BillHrReq");
+    if(annualBillReq > 0){
+        annualBillReqInput.val(annualBillReq);
+    } else annualBillReqInput.val(undefined)
+
+    let otherHrs = Number(localStorage.getItem("otherHrs"));
+    let otherHrsInput = $("#PBHrs");
+    if(otherHrs > 0){
+        otherHrsInput.val(otherHrs);
+    } else otherHrsInput.val(undefined);
+
+    let localMonthNum = localStorage.getItem("billableYearMonth");
+    let localMonth = switchMonthNumToString(Number(localMonthNum));
+    let sel = picker.find(`:contains(${localMonth})`);
+    sel.prop("selected", true);
 }
 
 function updateTable() {
     let table = $('#hrsTable tbody tr');
-    console.log(table);
+    // console.log(table);
     
     let month = $("#billableYearMonth").find(":selected").val();
-    console.log(month);
+    // console.log(month);
 
     for (let i = 0; i < table.length; i++){
         let row = table[i].children[0];
@@ -21,7 +58,7 @@ function updateTable() {
         if (num > 12) {
             num -= 12;
         }
-        console.log(switchMonthNumToString(num));
+        // console.log(switchMonthNumToString(num));
         row.innerHTML = "<td>"+(switchMonthNumToString(num))+"</td>";
         
     }
@@ -69,6 +106,46 @@ function switchMonthNumToString(number){
     }
 }
 
+function switchMonthStringToNum(string){
+    switch (string) {
+        case "January":
+            return 1;
+            break;
+        case "February":
+            return 2;
+            break;
+        case "March":
+            return 3;
+            break;
+        case "April":
+            return 4;
+            break;
+        case "May":
+            return 5;
+            break;
+        case "June":
+            return 6;
+            break;
+        case "July":
+            return 7;
+            break;
+        case "August":
+            return 8;
+            break;
+        case "September":
+            return 9;
+            break;
+        case "October":
+            return 10;
+            break;
+        case "November":
+            return 11;
+            break;
+        case "December":
+            return 12;
+            break;
+    }
+}
 
 
 function setYear(){
@@ -108,7 +185,7 @@ function getHours(className) {
     return result;
 }
 
-function calcHours() {
+function calcHours() {    
     // get billable hour requirement
     let billableHoursReq = $("#BillHrReq").val();
     // get pro bono and other non-billable hours counting towards billable max
@@ -186,7 +263,12 @@ function resetFields(){
     updateTable();
 }
 
+
+
+
+
 (function (){
     setYear();
+    getFromLocalStorage();
     updateTable();
 })()
