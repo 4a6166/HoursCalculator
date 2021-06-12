@@ -17,8 +17,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hours Calculator</title>
-    <link rel="stylesheet" href="./style.css">
-    <link rel="stylesheet" href="./knopf.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/knopf.css">
 
 </head>
 <body class="wrapper">
@@ -217,12 +217,30 @@
     </div>
 </body>
 
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-<script src="./app.js" type="text/JavaScript"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="./js/jquery-3.2.1.min.js"></script>
+<script src="./js/app.js" type="text/JavaScript"></script>
+<script src="./js/chart.js"></script>
 <script>
+    //Utils
+    function transparentize(value, opacity) {
+        opacity = opacity === undefined ? 1 : opacity;
+        return value.split('\)')[0]+","+opacity+")";
+    }
+
+    const CHART_COLORS = {
+        red: 'rgb(255, 99, 132)',
+        orange: 'rgb(255, 159, 64)',
+        yellow: 'rgb(255, 205, 86)',
+        green: 'rgb(75, 192, 192)',
+        blue: 'rgb(54, 162, 235)',
+        purple: 'rgb(153, 102, 255)',
+        grey: 'rgb(201, 203, 207)'
+    };
+
+
     //Setup
+    const DATA_COUNT = 1;
+    const NUMBER_CFG = {count: DATA_COUNT, min: 0, max: 730};
     const labels = [
     'January',
     'February',
@@ -230,22 +248,59 @@
     'April',
     'May',
     'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
     ];
+    const _data = [120, 150, 197, 35, 110, 115, 75, 110, 95, 100, 100, 100];
     const data = {
-    labels: labels,
-    datasets: [{
-        label: 'My First dataset',
-        backgroundColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)',
-        data: [0, 10, 5, 2, 20, 30, 45],
-    }]
+        labels: labels,
+        datasets: [{
+            label: 'Hours',
+            borderColor: 'rgb(255, 99, 132)',
+            borderWidth: .2,
+            backgroundColor: [
+                transparentize(CHART_COLORS.red, 0.5),
+                transparentize(CHART_COLORS.orange, 0.5),
+                transparentize(CHART_COLORS.yellow, 0.5),
+                transparentize(CHART_COLORS.green, 0.5),
+                transparentize(CHART_COLORS.blue, 0.5),
+                transparentize(CHART_COLORS.purple, 0.5),
+                transparentize(CHART_COLORS.red, 0.5),
+                transparentize(CHART_COLORS.orange, 0.5),
+                transparentize(CHART_COLORS.yellow, 0.5),
+                // transparentize(CHART_COLORS.green, 0.5),
+                // transparentize(CHART_COLORS.blue, 0.5),
+                // transparentize(CHART_COLORS.purple, 0.5),
+                transparentize(CHART_COLORS.grey, 0.2),
+                transparentize(CHART_COLORS.grey, 0.2),
+                transparentize(CHART_COLORS.grey, 0.2),
+            ],
+            data: _data,
+        }]
     };
 
     //Config
     const config = {
-    type: 'line',
-    data,
-    options: {}
+        type: 'polarArea',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    display: false,
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Hours',
+                    // position: 'bottom',
+                }
+            }
+        }
     };
 
     //render
