@@ -23,6 +23,8 @@ function setLocalStorage(){
 
     let otherHrs = $("#PBHrs").val();
     localStorage.setItem("otherHrs", otherHrs);
+
+    // TODO: get/set local storage for all items in the table
 }
 
 function getFromLocalStorage(){
