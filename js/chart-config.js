@@ -210,8 +210,8 @@ const config_donut = {
                 position: 'top',
             },
             title: {
-                display: true,
-                text: 'Chart.js Doughnut Chart'
+                display: false,
+                text: 'Hours'
             }
         }
     },
