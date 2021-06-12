@@ -28,6 +28,19 @@ button {
     margin: 15px;
 }
 
+.charts{
+    display: flex;
+    justify-content: space-evenly;
+    max-width: 75%;
+}
+.chart-totalHrs{
+    max-width: 400px;
+}
+
+.chart-totalProBono{
+    width: 70px;
+}
+
 .inline >div {
     display: inline-block;
 }

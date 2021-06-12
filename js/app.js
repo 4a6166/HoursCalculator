@@ -1,3 +1,50 @@
+console.log('Hours Calculator loaded');
+
+let data = {
+    hoursRequirement: undefined,
+    hoursAllowableProBono: undefined,
+    startMonth: undefined,
+
+    hours: {
+        billable: {
+            January: 0,
+            February: 0,
+            March: 0,
+            April: 0,
+            May: 0,
+            June: 0,
+            July: 0,
+            August: 0,
+            September: 0,
+            October: 0,
+            November: 0,
+            December: 0
+        },
+        proBono: {
+            January: 0,
+            February: 0,
+            March: 0,
+            April: 0,
+            May: 0,
+            June: 0,
+            July: 0,
+            August: 0,
+            September: 0,
+            October: 0,
+            November: 0,
+            December: 0
+        }
+    }
+};
+
+let calcs = {
+    monthsRemaining: undefined,
+    hrsLeft_Total: undefined,
+    hrsLeft_ProBono: undefined,
+    hrsLeft_PreMonth: undefined,
+};
+
+//TODO: Fill data and calcs objects, load data from local storage on startup, save on update, have functions fill calcs and have display pull from it
 
 const billableYearMonthPicker = document.querySelector('.billableYearMonth');
 const picker = $("#billableYearMonth");
