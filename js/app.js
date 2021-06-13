@@ -313,12 +313,13 @@ function updateDonut(){
             num -= 12;
         }
 
-        donut.data.labels[i] = switchMonthNumToString(num);
+        // donut.data.labels[i] = switchMonthNumToString(num);
+        donut.data.datasets[0].labels[i] = switchMonthNumToString(num);
 
         if(i>=(12-calcs.monthsRemaining)){
             donut.data.datasets[0].backgroundColor[i] = CHART_COLORS.prelimine_Gray;
         } else donut.data.datasets[0].backgroundColor[i] = CHART_COLORS.prelimine_Orange;
-        
+        //TODO: set else statement to provide orange that goes from pale to bright (some rbg value * (i/monthsRemaining))
         
     }
 

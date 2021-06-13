@@ -26,11 +26,12 @@ let data_donut_hours = [2, 3, 4, 5, 6, 7, 2, 3, 4, 5, 6 ,7];
 let data_donut_probono = [20, 10];
 
 const data_donut = {
-    labels: [],
+    labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     datasets: [
         {
             label: 'Hours',
             data: data_donut_hours,
+            labels: ["a","b","c","d","e","f",7,8,9,10,11,12],
             backgroundColor: [
                 CHART_COLORS.prelimine_Orange,
                 CHART_COLORS.prelimine_Orange,
@@ -44,43 +45,59 @@ const data_donut = {
                 CHART_COLORS.prelimine_Orange,
                 CHART_COLORS.prelimine_Orange,
                 CHART_COLORS.prelimine_Orange,
-            ]
+            ],
+            hoverOffset: -4,
+            weight: 2.5,
         },
         {
             label: 'Pro Bono',
             data: data_donut_probono,
+            labels: [
+                'Pro Bono Hour Completed',
+                'Pro Bono Hours Remaining'
+            ],
             backgroundColor: [
                 CHART_COLORS.prelimine_Orange,
                 CHART_COLORS.prelimine_Gray,
             ],
-            hoverOffset: 4,
+            hoverOffset: -4,
+            weight: 1,
         }
     ]
 };
+
+//tooltip
+
+const labels = (tooltipItem) => {
+    let itemIndex = tooltipItem.dataIndex;
+    return tooltipItem.dataset.labels[itemIndex] +": "+tooltipItem.formattedValue+" hrs";
+}
 
 //config
 const config_donut = {
     type: 'doughnut',
     data: data_donut,
     options: {
-
         responsive: true,
-        maintainAspectRatio: false,
+        aspectRatio: 1,
+        // maintainAspectRatio: false,
         circumference: 180,
         rotation: 270,
-        scales: {
 
-        },
         plugins: {
             legend: {
                 display: false,
-                position: 'top',
             },
             title: {
                 display: false,
-                text: 'Hours'
-            }
-        }
+            },   
+            tooltip: {
+                callbacks: {
+                    label:labels,
+                }
+            },
+            
+        },
     },
 };
 

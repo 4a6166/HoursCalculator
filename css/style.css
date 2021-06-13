@@ -90,28 +90,11 @@ code {
 
     position: fixed;
     top: -15px;
-    /* left: 15px;
-    right: 15px; */
     background: rgb(104, 102, 102);
 
     max-width: Calc(375px - 4em);
     height:fit-content;
     z-index: 1;
-
-}
-
-.charts{
-    display: flex;
-    justify-content: space-evenly;
-    max-width: 75%;
-    max-height: 100%;
-}
-.chart-totalHrs{
-    max-width: 400px;
-}
-
-.chart-totalProBono{
-    width: 70px;
 }
 
 .inline >div {
