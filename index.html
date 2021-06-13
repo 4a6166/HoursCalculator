@@ -21,216 +21,101 @@
     <link rel="stylesheet" href="./css/knopf.css">
 
 </head>
-<body class="wrapper">
-    <h1>Monthly Billable Hours Calculator</h1>
-
-    <div id="outputs-card">
-        <div id="hrsMo">
-            Average Hours Per Month Needed: <span id="hrs">50</span>
-        </div>
-        <div class="charts">
-            <div class="chart-totalHrs">
-                <canvas id="chart-totalHrs"></canvas>
+<body>
+    <div class="wrapper">
+        <!-- Outputs -->
+        <div id="outputs" class="outputs">
+            <h1>Monthly Billable Hours Calculator</h1>
+            <div id="outputs-card" class="stacked">
+                <div id="hrsMo" class="stacked top align-bottom">Hours Per Month
+                    <span id="hrs" class="align-bottom big-text">{{Placeholder Hrs per Month}}</span>
+                </div>
+                <div class="donutChart stacked below" >
+                    <canvas id="chart-dounut" style="width: 300px;"></canvas>
+                </div>
             </div>
-            <div class="chart-totalProBono">
-                <canvas id="chart-totalProBono"></canvas>
-            </div>
-            <div id="donutChart">
-                <canvas id="chart-dounut"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <!-- Header Inputs -->
-    <div>
-        <div>
-            <div>Annual Billable Hour Requirement</div>
-            <input required type="number" id="BillHrReq" placeholder="2300">
-        </div>
-        <div>
-            <div>Other Hours Counting Towards Requirement (Pro Bono, etc.)</div>
-            <input type="number" id="PBHrs" placeholder="20">
-        </div>
-        <div>
-            <div>Beginning Month of the Billable Year</div>
-            <!-- <input id="billableYearMonth" type="date" > -->
-            <select id="billableYearMonth" class="billableYearMonth">
-                <option value="1">January</option>
-                <option value="2">February</option>
-                <option value="3">March</option>
-                <option value="4">April</option>
-                <option value="5">May</option>
-                <option value="6">June</option>
-                <option value="7">July</option>
-                <option value="8">August</option>
-                <option value="9">September</option>
-                <option value="10">October</option>
-                <option value="11">November</option>
-                <option value="12">December</option>
-            </select>
+            <div id="outputs-data">
+                <p>Remaining</p>
+                <div class="inline">
+                    <div>Months:</div>
+                    <div id="monthsLeft" class="bold">0</div>
+                </div>
+                <div class="inline">
+                    <div>Billable Hours:</div>
+                    <div id="hrsLeftBillable" class="bold">0</div>
+                </div>
+                <div class="inline">
+                    <div>Pro Bono Hours:</div>
+                    <div id="hrsLeftProBono" class="bold">0</div>
+                </div>
+                <div class="inline">
+                    <div>To Hit Hours:</div>
+                    <div id="hrsLeftPerMonth" class="bold">0</div>
+                    <div>Hrs/Mo</div>
+                </div>
             </div>
         </div>
-    <!-- Table -->
-        <table id="hrsTable" >
-            <thead>
-                <tr>
-                    <th>Month</th>
-                    <th>Billable Hours</th>
-                    <th>Pro Bono & Other Hours</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>January</td>
-                    <td style="padding: 0;">
-                        <input class="billable" type="number" placeholder="0">
-                    </td>
-                    <td style="padding: 0;">
-                        <input class="probono" type="number" placeholder="0">
-                    </td>
-                </tr>
-                <tr>
-                    <td>February</td>
-                    <td style="padding: 0;">
-                        <input class="billable" type="number" placeholder="0">
-                    </td>
-                    <td style="padding: 0;">
-                        <input class="probono" type="number" placeholder="0">
-                    </td>
-                </tr>
-                <tr>
-                    <td>March</td>
-                    <td style="padding: 0;">
-                        <input class="billable" type="number" placeholder="0">
-                    </td>
-                    <td style="padding: 0;">
-                        <input class="probono" type="number" placeholder="0">
-                    </td>
-                </tr>
-                <tr>
-                    <td>April</td>
-                    <td style="padding: 0;">
-                        <input class="billable" type="number" placeholder="0">
-                    </td>
-                    <td style="padding: 0;">
-                        <input class="probono" type="number" placeholder="0">
-                    </td>
-                </tr>
-                <tr>
-                    <td>May</td>
-                    <td style="padding: 0;">
-                        <input class="billable" type="number" placeholder="0">
-                    </td>
-                    <td style="padding: 0;">
-                        <input class="probono" type="number" placeholder="0">
-                    </td>
-                </tr>
-                <tr>
-                    <td>June</td>
-                    <td style="padding: 0;">
-                        <input class="billable" type="number" placeholder="0">
-                    </td>
-                    <td style="padding: 0;">
-                        <input class="probono" type="number" placeholder="0">
-                    </td>
-                </tr>
-                <tr>
-                    <td>July</td>
-                    <td style="padding: 0;">
-                        <input class="billable" type="number" placeholder="0">
-                    </td>
-                    <td style="padding: 0;">
-                        <input class="probono" type="number" placeholder="0">
-                    </td>
-                </tr>
-                <tr>
-                    <td>August</td>
-                    <td style="padding: 0;">
-                        <input class="billable" type="number" placeholder="0">
-                    </td>
-                    <td style="padding: 0;">
-                        <input class="probono" type="number" placeholder="0">
-                    </td>
-                </tr>
-                <tr>
-                    <td>September</td>
-                    <td style="padding: 0;">
-                        <input class="billable" type="number" placeholder="0">
-                    </td>
-                    <td style="padding: 0;">
-                        <input class="probono" type="number" placeholder="0">
-                    </td>
-                </tr>
-                <tr>
-                    <td>October</td>
-                    <td style="padding: 0;">
-                        <input class="billable" type="number" placeholder="0">
-                    </td>
-                    <td style="padding: 0;">
-                        <input class="probono" type="number" placeholder="0">
-                    </td>
-                </tr>
-                <tr>
-                    <td>November</td>
-                    <td style="padding: 0;">
-                        <input class="billable" type="number" placeholder="0">
-                    </td>
-                    <td style="padding: 0;">
-                        <input class="probono" type="number" placeholder="0">
-                    </td>
-                </tr>
-                <tr>
-                    <td>December</td>
-                    <td style="padding: 0;">
-                        <input class="billable" type="number" placeholder="0">
-                    </td>
-                    <td style="padding: 0;">
-                        <input class="probono" type="number" placeholder="0">
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div id="inputs" class="inputs">
+            <!-- Header Inputs -->
+            <div>
+                <div>
+                    <div>Annual Billable Hour Requirement</div>
+                    <input required type="number" id="BillHrReq" oninput="inputTrim(this, 8760)" placeholder="2300">
+                </div>
+                <div>
+                    <div>Other Hours Counting Towards Requirement (Pro Bono, etc.)</div>
+                    <input type="number" id="PBHrs" oninput="inputTrim(this, 8760)" placeholder="20">
+                </div>
+                <div>
+                    <div>Beginning Month of the Billable Year</div>
+                    <!-- <input id="billableYearMonth" type="date" > -->
+                    <select id="billableYearMonth" class="billableYearMonth">
+                        <option value="1">January</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April</option>
+                        <option value="5">May</option>
+                        <option value="6">June</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December</option>
+                    </select>
+                    </div>
+                </div>
+            <!-- Table -->
+                <table id="hrsTable" >
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Billable Hours</th>
+                            <th>Pro Bono & Other Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
 
-    <!-- Submit-->
-    <div class="buttons">
-        <button id="calculate" class="knopf" onclick="calcHours()" >Calculate</button>
-        <!-- <a class="allsides-5" onclick="calcHours()">Calculate</a> -->
-        <button id="reset" class="knopf flat" onclick="resetFields()" style="margin-left: 15px;">Reset</button>
-        <!-- <a  class="allsides-5" onclick="resetFields()">Reset</a> -->
-    </div>
-
-    <!-- Outputs -->
-    <div id="outputs" class="outputs">
-        <!-- TODO: add graphic to show visualization of how much time till hitting hours, maybe a wheel or %bar-->
-        <!-- inspiration:   https://dribbble.com/shots/15530589/attachments/7310456?mode=media 
-                            https://dribbble.com/shots/7598410-Fitness-dashboard
-                            https://dribbble.com/shots/14041231/attachments/5659064?mode=media
-                        -->
-        <div class="inline">
-            <div>Months Remaining:</div>
-            <div id="monthsLeft" class="bold">0</div>
+            <!-- Submit-->
+            <div class="buttons">
+                <!-- <button id="calculate" class="knopf" onclick="calcHours()" >Calculate</button> -->
+                <button id="reset" class="knopf flat" onclick="resetTableHours()">Reset Hours</button>
+            </div>
         </div>
-        <div class="inline">
-            <div>Hours Remaining:</div>
-            <div id="hrsLeftBillable" class="bold">0</div>
-        </div>
-        <div class="inline">
-            <div>Pro Bono Hours Remaining:</div>
-            <div id="hrsLeftProBono" class="bold">0</div>
-        </div>
-        <div class="inline">
-            <div>Hours Remaining Per Month:</div>
-            <div id="hrsLeftPerMonth" class="bold">0</div>
-        </div>
+        
         <div id="instructions">
-            <!-- TODO: add section on how to add to iphone home screen and/or bookmark -->
+            <p>To add the Hours Calculator to your iPhone, tap the <code>share</code> button and the <code>Add to Home Screen</code> option.</p>
+            <p>To add the Hours Calculator to your Android phone, tap the <code>menu icon</code> in Chrome and the <code>Add to homescreen</code> option.</p>
         </div>
     </div>
 </body>
 
 <script src="./js/jquery-3.2.1.min.js"></script>
-<script src="./js/app.js" type="text/JavaScript"></script>
 <script src="./js/chart.js"></script>
 <script src="./js/chart-config.js"></script>
+<script src="./js/app.js" type="text/JavaScript"></script>
 
 </html>

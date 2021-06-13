@@ -1,3 +1,12 @@
+:root {
+    /* --prelimine-Orange: #dd6d4f; */
+    --prelimine-Orange: 221, 109, 79;
+    /* --prelimine-Blue: #4d82b8; */
+    --prelimine-Blue: 77, 130, 184;
+    /* --prelimine-Gray: #808080; */
+    --prelimine-Gray: 128, 128, 128;
+}
+
 body {
     color: inherit;
     hyphens: auto;
@@ -13,25 +22,89 @@ button {
 }
 
 .wrapper {
-    width: fit-content;
+    /* width: 375px; */
+    width: Calc(375px - 2em);
     justify-content: center;
     align-content: center;
     margin: auto;
+    padding:1em;
+}
+
+.hidden {
+    display: none;
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+}
+
+.stacked {
+    display: grid;
+    grid-template: 1fr / 1fr;
+    place-items: center;
+}
+
+.stacked > * {
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+}
+
+.stacked .below {
+    z-index: 1;
+}
+
+.stacked .top {
+    z-index: 2;
+}
+
+.align-bottom {
+    margin-top: 15%;
+}
+
+.big-text {
+    font-weight: 900;
+    font-size: 3.5rem;
+}
+
+code {
+    background-color: var(--prelimine-Gray);
+    border-radius: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.inputs {
+    position: relative;
+    z-index: 0;
 }
 
 .outputs {
     display: flexbox;
     justify-content: center;
-    border: 1px solid black;
+    border: 1px solid var(--prelimine-Gray);
     border-radius: 15px;
     padding: 15px;
-    margin: 15px;
+    margin: unset;
+
+    position: fixed;
+    top: -15px;
+    /* left: 15px;
+    right: 15px; */
+    background: rgb(104, 102, 102);
+
+    max-width: Calc(375px - 4em);
+    height:fit-content;
+    z-index: 1;
+
 }
 
 .charts{
     display: flex;
     justify-content: space-evenly;
     max-width: 75%;
+    max-height: 100%;
 }
 .chart-totalHrs{
     max-width: 400px;
@@ -50,12 +123,15 @@ button {
 }
 
 h1 {
+    font-size: 1.5em;
     color: purple;
 }
+
 table {
-    background-color: rgb(194, 199, 194);
+    /* background-color: var(--prelimine-Gray); */
     box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
-    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     border-radius: 5px;
     border-collapse: collapse;
 }
@@ -65,8 +141,11 @@ thead, tbody, th, td {
     border-collapse: collapse;
 }
 table > thead {
+
     align-items: flex-start;
-    color: black;
+    font-weight: 800;
+    font-size:.8em;
+    color: var(--prelimine-Blue);
 }
 th, td {
     padding: 10px;
@@ -75,7 +154,7 @@ th, td {
 input, select {
     padding: 5px;
     text-align: center;
-    border: 1px solid black;
+    border: 1px solid var(--prelimine-Gray);
     background-color: inherit;
     margin: 5px;
 }
@@ -109,8 +188,14 @@ a:hover{
 }
 
 
+
 @media only screen and (max-width: 600px){
     body {
-background-color: rgba(154, 233, 139, 0.5);
+        background-color: rgba(var(--prelimine-Blue), 0.);
+    }
+
+    #chart-dounut{
+        max-width:100% ;
+        max-height: 100%;
     }
 }
