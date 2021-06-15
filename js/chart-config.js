@@ -46,8 +46,8 @@ const data_donut = {
                 CHART_COLORS.prelimine_Orange,
                 CHART_COLORS.prelimine_Orange,
             ],
-            hoverOffset: -4,
-            weight: 2.5,
+            hoverOffset: 4,
+            weight: 3,
         },
         {
             label: 'Pro Bono',
@@ -67,7 +67,6 @@ const data_donut = {
 };
 
 //tooltip
-
 const labels = (tooltipItem) => {
     let itemIndex = tooltipItem.dataIndex;
     return tooltipItem.dataset.labels[itemIndex] +": "+tooltipItem.formattedValue+" hrs";
@@ -81,8 +80,10 @@ const config_donut = {
         responsive: true,
         aspectRatio: 1,
         // maintainAspectRatio: false,
-        circumference: 180,
-        rotation: 270,
+        circumference: 30,
+        // rotation: 270,
+        rotation: 165,
+        cutout: 140,
 
         plugins: {
             legend: {
@@ -96,12 +97,9 @@ const config_donut = {
                     label:labels,
                 }
             },
-            
         },
     },
 };
-
-Chart.overrides.doughnut.cutout = 90;
 
 //render
     var donut =  new Chart(

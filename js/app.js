@@ -1,5 +1,12 @@
 console.log('Hours Calculator loaded');
 
+function changeVisibility(elementId){
+    console.log("click");
+    let section = document.getElementById(elementId);
+    
+    let hidden = section.classList.contains('hidden') ? section.classList.remove('hidden') : section.classList.add('hidden');
+}
+
 //#region Utilities
 function inputTrim(input, max){
     if (input.value < 0) alert(`Please enter a value between 0 and ${max}`);

@@ -18,58 +18,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hours Calculator</title>
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/knopf.css">
+    <!-- <link rel="stylesheet" href="./css/knopf.css"> -->
 
 </head>
 <body>
     <div class="wrapper">
         <!-- Outputs -->
-        <div id="outputs" class="outputs">
-            <h1>Monthly Billable Hours Calculator</h1>
-            <div id="outputs-card" class="stacked">
-                <div id="hrsMo" class="stacked below align-bottom">Hours Per Month
-                    <span id="hrs" class="align-bottom big-text">{{Placeholder Hrs per Month}}</span>
-                </div>
-                <div class="donutChart stacked top" >
-                    <canvas id="chart-dounut" style="width: 300px;"></canvas>
-                </div>
+        <div id="outputs" class="outputs card">
+            <div class="img-wrapper">
+                <a href="https://www.prelimine.com" target="_blank" class="img-wrapper">
+                    <img class="pilcrow" src="img/Key1.png" height="50px">
+                </a>
             </div>
-            <div id="outputs-data">
-                <p>Remaining</p>
-                <div class="inline">
-                    <div>Months:</div>
-                    <div id="monthsLeft" class="bold">0</div>
-                </div>
-                <div class="inline">
-                    <div>Billable Hours:</div>
-                    <div id="hrsLeftBillable" class="bold">0</div>
-                </div>
-                <div class="inline">
-                    <div>Pro Bono Hours:</div>
-                    <div id="hrsLeftProBono" class="bold">0</div>
-                </div>
-                <div class="inline">
-                    <div>To Hit Hours:</div>
-                    <div id="hrsLeftPerMonth" class="bold">0</div>
-                    <div>Hrs/Mo</div>
+            <h1><span class="prelimine">prelimine</span><br>Hours Calculator</h1>
+            <div id="outputs-graphic" class="stacked">
+                <!-- <div style="height: 120px;"> -->
+                    <div id="hrsMo" class="stacked below align-bottom">Hours Per Month
+                        <span id="hrs" class="align-bottom big-text"></span>
+                    </div>
+                    <div class="donutChart stacked " >
+                        <canvas id="chart-dounut" ></canvas>
+                    </div>
+                <!-- </div> -->
+            </div>
+            <div>
+                <button onclick="changeVisibility('outputs-data')" style="z-index:0;">A</button>
+                <div id="outputs-data">
+                    <p>Remaining</p>
+                    <div class="inline">
+                        <div>Months:</div>
+                        <div id="monthsLeft" class="bold">0</div>
+                    </div>
+                    <div class="inline">
+                        <div>Billable Hours:</div>
+                        <div id="hrsLeftBillable" class="bold">0</div>
+                    </div>
+                    <div class="inline">
+                        <div>Pro Bono Hours:</div>
+                        <div id="hrsLeftProBono" class="bold">0</div>
+                    </div>
+                    <div class="inline">
+                        <div>To Hit Hours:</div>
+                        <div id="hrsLeftPerMonth" class="bold">0</div>
+                        <div>Hrs/Mo</div>
+                    </div>
                 </div>
             </div>
         </div>
         <div id="inputs" class="inputs">
             <!-- Header Inputs -->
-            <div>
-                <div>
-                    <div>Annual Billable Hour Requirement</div>
-                    <input required type="number" id="BillHrReq" oninput="inputTrim(this, 8760)" placeholder="2300">
+            <form>
+                <div class="inline">
+                    <label for="BillHrReq">Annual Billable Hour Requirement</label>
+                    <input required type="number" id="BillHrReq" name="BillHrReq" oninput="inputTrim(this, 8760)" placeholder="2300">
                 </div>
-                <div>
-                    <div>Other Hours Counting Towards Requirement (Pro Bono, etc.)</div>
-                    <input type="number" id="PBHrs" oninput="inputTrim(this, 8760)" placeholder="20">
+                <div class="inline">
+                    <label for="PBHrs">Other Hours Counting Towards Requirement (Pro Bono, etc.)</label>
+                    <input type="number" id="PBHrs" name="PBHrs" oninput="inputTrim(this, 8760)" placeholder="20">
                 </div>
-                <div>
-                    <div>Beginning Month of the Billable Year</div>
+                <div class="inline">
+                    <label for="billableYearMonth">Beginning Month of the Billable Year</label>
                     <!-- <input id="billableYearMonth" type="date" > -->
-                    <select id="billableYearMonth" class="billableYearMonth">
+                    <select id="billableYearMonth" name="billableYearMonth">
                         <option value="1">January</option>
                         <option value="2">February</option>
                         <option value="3">March</option>
@@ -83,9 +93,10 @@
                         <option value="11">November</option>
                         <option value="12">December</option>
                     </select>
-                    </div>
                 </div>
+            </form>
             <!-- Table -->
+            <div class="table-wrapper card">
                 <table id="hrsTable" >
                     <thead>
                         <tr>
@@ -98,17 +109,20 @@
                         
                     </tbody>
                 </table>
-
-            <!-- Submit-->
-            <div class="buttons">
-                <!-- <button id="calculate" class="knopf" onclick="calcHours()" >Calculate</button> -->
-                <button id="reset" class="knopf flat" onclick="resetTableHours()">Reset Hours</button>
+                <!-- Submit-->
+                <div class="buttons">
+                    <!-- <button id="calculate" class="knopf" onclick="calcHours()" >Calculate</button> -->
+                    <button id="reset" class="knopf flat" onclick="resetTableHours()">Reset Hours</button>
+                </div>
             </div>
+            
         </div>
         
         <div id="instructions">
             <p>To add the Hours Calculator to your iPhone, tap the <code>share</code> button and the <code>Add to Home Screen</code> option.</p>
             <p>To add the Hours Calculator to your Android phone, tap the <code>menu icon</code> in Chrome and the <code>Add to homescreen</code> option.</p>
+        </div>
+        <div id="madeBy">Developed by<a href="https://www.prelimine.com" target="_blank" style="padding: 5px 0;"> <span class="prelimine bold">prelimine</span>, makers of LitKit </a>
         </div>
     </div>
 </body>
