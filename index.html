@@ -1,15 +1,3 @@
-<!-- CRUD walkthrough: https://www.codemag.com/article/1511031/CRUD-in-HTML-JavaScript-and-jQuery -->
-
-<!--
-    reasonable{
-        Annual Requirement: 2100;
-        Pro Bono: 30;
-        Beginning Month: Jan;
-
-        hrs/mo: ~180-200;
-    }
--->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,24 +13,25 @@
     <div class="wrapper">
         <!-- Outputs -->
         <div id="outputs" class="outputs card">
-            <div class="img-wrapper">
+            <div class="img-wrapper top">
                 <a href="https://www.prelimine.com" target="_blank" class="img-wrapper">
-                    <img class="pilcrow" src="img/Key1.png" height="50px">
+                    <img class="pilcrow" src="img/Key1.png" height="50px" alt="logo">
                 </a>
             </div>
-            <h1><span class="prelimine">prelimine</span><br>Hours Calculator</h1>
-            <div id="outputs-graphic" class="stacked">
+            <h1 class="top"><span class="prelimine normal-weights">prelimine</span><br><span class="bold">Hours Calculator</span></h1>
+            <div id="outputs-graphic" class="stacked below">
                 <!-- <div style="height: 120px;"> -->
-                    <div id="hrsMo" class="stacked below align-bottom">Hours Per Month
-                        <span id="hrs" class="align-bottom big-text"></span>
+                    <div class="donutChart top" >
+                        <canvas id="chart-dounut"  ></canvas>
                     </div>
-                    <div class="donutChart stacked " >
-                        <canvas id="chart-dounut" ></canvas>
+                    <div id="hrsBig below">
+                        <span id="hrsMo">Hours Per Month</span><br>
+                        <span id="hrs" class="big-text bold"></span>
                     </div>
                 <!-- </div> -->
             </div>
-            <div>
-                <button onclick="changeVisibility('outputs-data')" style="z-index:0;">A</button>
+            <div id="outputs-data-section" class="top">
+                <button onclick="changeVisibility('outputs-data')" class="bold">A</button>
                 <div id="outputs-data">
                     <p>Remaining</p>
                     <div class="inline">
@@ -119,8 +108,8 @@
         </div>
         
         <div id="instructions">
-            <p>To add the Hours Calculator to your iPhone, tap the <code>share</code> button and the <code>Add to Home Screen</code> option.</p>
-            <p>To add the Hours Calculator to your Android phone, tap the <code>menu icon</code> in Chrome and the <code>Add to homescreen</code> option.</p>
+            <p>To add the Hours Calculator to your iPhone, tap the <code>share</code> button and the <code>Add&nbsp;to&nbsp;Home&nbsp;Screen</code> option.</p>
+            <p>To add the Hours Calculator to your Android phone, tap the <code>menu&nbsp;icon</code> in Chrome and the <code>Add&nbsp;to&nbsp;homescreen</code> option.</p>
         </div>
         <div id="madeBy">Developed by<a href="https://www.prelimine.com" target="_blank" style="padding: 5px 0;"> <span class="prelimine bold">prelimine</span>, makers of LitKit </a>
         </div>

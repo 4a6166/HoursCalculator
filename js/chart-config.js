@@ -22,8 +22,8 @@ const CHART_COLORS = {
 const DATA_COUNT_donut = 5;
 const NUMBER_CFG_donut = {count: DATA_COUNT_donut, min: 0, max: 100};
 
-let data_donut_hours = [2, 3, 4, 5, 6, 7, 2, 3, 4, 5, 6 ,7];
-let data_donut_probono = [20, 10];
+let data_donut_hours = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
+let data_donut_probono = [0, 1];
 
 const data_donut = {
     labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -31,23 +31,37 @@ const data_donut = {
         {
             label: 'Hours',
             data: data_donut_hours,
-            labels: ["a","b","c","d","e","f",7,8,9,10,11,12],
+            labels: [
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "July",
+                "September",
+                "October",
+                "November",
+                "December"
+            ],
             backgroundColor: [
-                CHART_COLORS.prelimine_Orange,
-                CHART_COLORS.prelimine_Orange,
-                CHART_COLORS.prelimine_Orange,
-                CHART_COLORS.prelimine_Orange,
-                CHART_COLORS.prelimine_Orange,
-                CHART_COLORS.prelimine_Orange,
-                CHART_COLORS.prelimine_Orange,
-                CHART_COLORS.prelimine_Orange,
-                CHART_COLORS.prelimine_Orange,
-                CHART_COLORS.prelimine_Orange,
-                CHART_COLORS.prelimine_Orange,
-                CHART_COLORS.prelimine_Orange,
+                CHART_COLORS.prelimine_Gray,
+                CHART_COLORS.prelimine_Gray,
+                CHART_COLORS.prelimine_Gray,
+                CHART_COLORS.prelimine_Gray,
+                CHART_COLORS.prelimine_Gray,
+                CHART_COLORS.prelimine_Gray,
+                CHART_COLORS.prelimine_Gray,
+                CHART_COLORS.prelimine_Gray,
+                CHART_COLORS.prelimine_Gray,
+                CHART_COLORS.prelimine_Gray,
+                CHART_COLORS.prelimine_Gray,
+                CHART_COLORS.prelimine_Gray,
             ],
             hoverOffset: 4,
-            weight: 3,
+            weight: 2.5,
         },
         {
             label: 'Pro Bono',
@@ -78,12 +92,12 @@ const config_donut = {
     data: data_donut,
     options: {
         responsive: true,
-        aspectRatio: 1,
-        // maintainAspectRatio: false,
+        // aspectRatio: 1,
+        maintainAspectRatio: false,
         circumference: 30,
         // rotation: 270,
-        rotation: 165,
-        cutout: 140,
+        rotation: 345,
+        cutout: 135,
 
         plugins: {
             legend: {

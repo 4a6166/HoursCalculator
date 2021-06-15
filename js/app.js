@@ -1,5 +1,15 @@
 console.log('Hours Calculator loaded');
 
+// let reasonableBaseline = {
+//     hrsRequirement: 2100,
+//     hrsProBono: 30,
+//     startMonth: Jan,
+//     hrsPerMo: {
+//         low: 180,
+//         high: 200,
+//     }
+// }
+
 function changeVisibility(elementId){
     console.log("click");
     let section = document.getElementById(elementId);
@@ -192,7 +202,16 @@ function updateOutput() {
         setTableHours();
         updateCalcs();
         updateOutput();
-    } else console.log("Hours Calculator local information not found");
+    } else {
+        console.log("Hours Calculator local information not found");
+
+        data.hoursRequirement = 0;
+        data.hoursAllowableProBono = 0;
+        data.startMonth = 1;
+
+        updateTableMonths();
+        // updateCalcs();
+    }
 })();
 
 function setUpTable(){

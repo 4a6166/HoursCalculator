@@ -1,3 +1,23 @@
+@font-face{
+    /* font-family: 'Ubuntu Mono', monospace;
+    src: url(https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap); */
+    
+    font-family: Avenir;
+    src: url(/fonts/Avenir\ Next\ LT\ Pro/Avenir_Next_LT_Pro.ttf);
+}
+
+@font-face{
+    font-family: Avenir_Bold;
+    src: url(/fonts/Avenir\ Next\ LT\ Pro/Avenir_Next_LT_Pro_Bold.ttf);
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: Avenir_Light;
+    src: url(/fonts/Avenir\ Next\ LT\ Pro/Avenir_Next_LT_Pro_Light.ttf);
+    font-weight: lighter;
+}
+
 :root {
     /* --prelimine-Orange: #dd6d4f; */
     --prelimine-Orange: 221, 109, 79;
@@ -13,11 +33,13 @@ body {
 
     display: grid;
     place-items: center;
+
+    font-family: Avenir;
 }
 
 .wrapper {
     width: 375px;
-    /* width: Calc(375px - 2em); */
+    width: Calc(375px - 2em);
     margin: auto;
 }
 
@@ -36,24 +58,26 @@ body {
     background-color: whitesmoke;
 }
 
-/* .stacked {
-    display: grid;
-    grid-template: 1fr / 1fr;
-    place-items: center;
-}
+/* !I #region stacked //////////////////////////////////////////////////////////// */
+    .stacked {
+        display: grid;
+        grid-template: 1fr / 1fr;
+        place-items: center;
+    }
 
-.stacked > * {
-    grid-column: 1 / 1;
-    grid-row: 1 / 1;
-}
+    .stacked > * {
+        grid-column: 1 / 1;
+        grid-row: 1 / 1;
+    }
 
-.stacked .below {
-    z-index: 0;
-}
+    .stacked .below {
+        z-index: 0;
+    }
 
-.stacked .top {
-    z-index: 1;
-} */
+    .stacked .top {
+        z-index: 1;
+    }
+/* !I #endregion //////////////////////////////////////////////////////////// */
 
 button {
     margin-left: 5px;
@@ -95,12 +119,19 @@ a:hover{
 }
 
 .big-text {
-    font-weight: 900;
     font-size: 3.5rem;
 }
 
 .bold {
-    font-weight: 700;
+    font-weight: bold;
+}
+
+.lighter {
+    font-weight: lighter;
+}
+
+.normal-weight {
+    font-weight: normal;
 }
 
 code {
@@ -170,7 +201,7 @@ td > input {
 }
 
 #inputs {
-    background: blue;
+    background: whitesmoke;
 }
 
 #instructions {
