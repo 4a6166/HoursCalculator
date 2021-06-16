@@ -293,7 +293,7 @@ td > input {
     background: whitesmoke;
 }
 
-#instructions {
+.instructions {
     font-size: .9em;
 }
 
@@ -301,4 +301,20 @@ td > input {
     font-size: .8em;
     text-align: center;
     padding: 15px 0;
+}
+
+.mobile {
+    display: none;
+}
+
+/* mobile */
+@media screen and (max-device-width: 900px) {
+    .instructions.mobile {
+        display: inherit;
+        font-size: .9em;
+    }
+    
+    .instructions.desktop {
+        display: none;
+    }
 }

@@ -21,6 +21,10 @@ function changeVisibility(elementId, buttonID){
     }
 }
 
+// function bookmarkPage(){
+//     functionality purposefully removed by browers
+// }
+
 //#region Utilities
 function inputTrim(input, max){
     if (input.value < 0) alert(`Please enter a value between 0 and ${max}`);
