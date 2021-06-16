@@ -10,11 +10,15 @@ console.log('Hours Calculator loaded');
 //     }
 // }
 
-function changeVisibility(elementId){
-    console.log("click");
+function changeVisibility(elementId, buttonID){
     let section = document.getElementById(elementId);
-    
-    let hidden = section.classList.contains('hidden') ? section.classList.remove('hidden') : section.classList.add('hidden');
+    section.classList.contains('hidden') ? section.classList.remove('hidden') : section.classList.add('hidden');
+
+    let open = document.getElementById(buttonID).children;
+    for (let i = 0; i < 2; i++) {
+        open[i].classList.contains('hidden') ? open[i].classList.remove('hidden') : open[i].classList.add('hidden');
+        
+    }
 }
 
 //#region Utilities
@@ -218,11 +222,11 @@ function setUpTable(){
 
     let rowTemplate = `
         <tr>
-            <td>{{Month}}</td>
-            <td style="padding: 0;">
+            <td class="table-months">{{Month}}</td>
+            <td class="table-number">
                 <input class="billable" type="number" min="0" max="730" oninput="inputTrim(this, 730)" placeholder="0">
             </td>
-            <td style="padding: 0;">
+            <td class="table-number table-pro-bono">
                 <input class="probono" type="number" min="0" max="730" oninput="inputTrim(this, 703)" placeholder="0">
             </td>
         </tr>

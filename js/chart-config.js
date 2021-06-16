@@ -61,7 +61,7 @@ const data_donut = {
                 CHART_COLORS.prelimine_Gray,
             ],
             hoverOffset: 4,
-            weight: 2.5,
+            weight: 2.1,
         },
         {
             label: 'Pro Bono',
@@ -94,10 +94,11 @@ const config_donut = {
         responsive: true,
         // aspectRatio: 1,
         maintainAspectRatio: false,
-        circumference: 30,
+        // circumference: 30,
         // rotation: 270,
         rotation: 345,
-        cutout: 135,
+        // cutout: 135,
+        cutout: 95,
 
         plugins: {
             legend: {

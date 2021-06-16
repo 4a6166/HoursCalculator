@@ -18,43 +18,62 @@
                     <img class="pilcrow" src="img/Key1.png" height="50px" alt="logo">
                 </a>
             </div>
-            <h1 class="top"><span class="prelimine normal-weights">prelimine</span><br><span class="bold">Hours Calculator</span></h1>
+            <h1 class="top">
+                <span class="prelimine normal-weights">prelimine</span>
+                <br>
+                <span class="bold">Hours Calculator</span></h1>
             <div id="outputs-graphic" class="stacked below">
                 <!-- <div style="height: 120px;"> -->
                     <div class="donutChart top" >
                         <canvas id="chart-dounut"  ></canvas>
                     </div>
-                    <div id="hrsBig below">
-                        <span id="hrsMo">Hours Per Month</span><br>
-                        <span id="hrs" class="big-text bold"></span>
+                    <div id="hrsBig below center center-text">
+                        <span id="hrsMo" class="center center-text bold">Hours Per Month</span>
+                        <span id="hrs" class="big-text bold center center-text"></span>
+                        <span class="lighter small-text center center-text">Average Needed to</span>
+                        <span class="lighter small-text center center-text"> Hit Hours</span>
                     </div>
                 <!-- </div> -->
             </div>
             <div id="outputs-data-section" class="top">
-                <button onclick="changeVisibility('outputs-data')" class="bold">A</button>
-                <div id="outputs-data">
-                    <p>Remaining</p>
-                    <div class="inline">
-                        <div>Months:</div>
+                <div class="button-wrapper">
+                    <button id="outputs-visibility" class="bold"  onclick="changeVisibility('outputs-data', 'outputs-visibility')" >
+                        <img id="outputClose" class="hidden" src="img/chevron-up.svg" alt="close" >
+                        <img id="outputOpen"  src="img/chevron-down.svg" alt="open">
+                    </button>
+                    <p class="bold small-text" style="height: 25px; padding-right:0;">Calculations:</p>
+                </div>
+                <div id="outputs-data" class="hidden">
+                    <div>
+                        <div>Hrs/Mo to Hit Bonus:</div>
+                        <div id="hrsLeftPerMonth" class="bold">0</div>
+                    </div>
+                    <hr>
+                    <div>
+                        <div>Months Left till Year End:</div>
                         <div id="monthsLeft" class="bold">0</div>
                     </div>
-                    <div class="inline">
-                        <div>Billable Hours:</div>
+                    <div>
+                        <div>Billable Hours To Go:</div>
                         <div id="hrsLeftBillable" class="bold">0</div>
                     </div>
-                    <div class="inline">
-                        <div>Pro Bono Hours:</div>
+                    <div>
+                        <div>Pro Bono Hours Left:</div>
                         <div id="hrsLeftProBono" class="bold">0</div>
                     </div>
-                    <div class="inline">
-                        <div>To Hit Hours:</div>
-                        <div id="hrsLeftPerMonth" class="bold">0</div>
-                        <div>Hrs/Mo</div>
+                    <hr>
+                    <div>
+                        <div>Months without Hours</div>
+                        <div id="monthsWithoutHours" class="bold">X</div>
+                    </div>
+                    <div>
+                        <div>Future Months with Hours</div>
+                        <div id="monthsWithHoursFuture" class="bold">X</div>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="inputs" class="inputs">
+        <div id="inputs" class="inputs card">
             <!-- Header Inputs -->
             <form>
                 <div class="inline">
@@ -85,21 +104,22 @@
                 </div>
             </form>
             <!-- Table -->
-            <div class="table-wrapper card">
+            <div id="table-wrapper">
                 <table id="hrsTable" >
                     <thead>
                         <tr>
-                            <th>Month</th>
-                            <th>Billable Hours</th>
-                            <th>Pro Bono & Other Hours</th>
+                            <th class="table-months">Month</th>
+                            <th class="th-number">Billable Hours</th>
+                            <th class="th-number">Pro Bono & Other</th>
+                            <!-- <th>O</th> -->
+<!-- TODO: How to mark months as not counted -->
                         </tr>
                     </thead>
                     <tbody>
-                        
                     </tbody>
                 </table>
                 <!-- Submit-->
-                <div class="buttons">
+                <div class="button-wrapper">
                     <!-- <button id="calculate" class="knopf" onclick="calcHours()" >Calculate</button> -->
                     <button id="reset" class="knopf flat" onclick="resetTableHours()">Reset Hours</button>
                 </div>
@@ -109,9 +129,12 @@
         
         <div id="instructions">
             <p>To add the Hours Calculator to your iPhone, tap the <code>share</code> button and the <code>Add&nbsp;to&nbsp;Home&nbsp;Screen</code> option.</p>
-            <p>To add the Hours Calculator to your Android phone, tap the <code>menu&nbsp;icon</code> in Chrome and the <code>Add&nbsp;to&nbsp;homescreen</code> option.</p>
+            <p>To add the Hours Calculator on Android, tap the <code>menu&nbsp;icon</code> in Chrome and the <code>Add&nbsp;to&nbsp;homescreen</code> option.</p>
         </div>
-        <div id="madeBy">Developed by<a href="https://www.prelimine.com" target="_blank" style="padding: 5px 0;"> <span class="prelimine bold">prelimine</span>, makers of LitKit </a>
+        <div id="madeBy">Developed by<br>
+            <a href="https://www.prelimine.com" target="_blank" style="padding: 5px 0;"> 
+                <span class="prelimine-credit bold">prelimine</span>, <span class="maker-credit ">the maker of LitKit </span>
+            </a>
         </div>
     </div>
 </body>
