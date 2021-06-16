@@ -76,17 +76,17 @@
         <div id="inputs" class="inputs card">
             <!-- Header Inputs -->
             <form>
-                <div class="inline">
-                    <label for="BillHrReq">Annual Billable Hour Requirement</label>
+                <div>
+                    <label for="BillHrReq">Billable Hours<br><span class="small-small-text">Annual Requirement</span></label>
                     <input required type="number" id="BillHrReq" name="BillHrReq" oninput="inputTrim(this, 8760)" placeholder="2300">
                 </div>
-                <div class="inline">
-                    <label for="PBHrs">Other Hours Counting Towards Requirement (Pro Bono, etc.)</label>
+                <div>
+                    <label for="PBHrs">Other Hours<br><span class="small-small-text">Counting Towards Biillables</span></label>
                     <input type="number" id="PBHrs" name="PBHrs" oninput="inputTrim(this, 8760)" placeholder="20">
                 </div>
-                <div class="inline">
-                    <label for="billableYearMonth">Beginning Month of the Billable Year</label>
-                    <!-- <input id="billableYearMonth" type="date" > -->
+                
+                <div>
+                    <label for="billableYearMonth">Beginning Month<br><span class="small-small-text">of the Billable Year</span></label>
                     <select id="billableYearMonth" name="billableYearMonth">
                         <option value="1">January</option>
                         <option value="2">February</option>
@@ -103,15 +103,16 @@
                     </select>
                 </div>
             </form>
+            <br>
             <!-- Table -->
             <div id="table-wrapper">
                 <table id="hrsTable" >
                     <thead>
                         <tr>
                             <th class="table-months">Month</th>
-                            <th class="th-number">Billable Hours</th>
-                            <th class="th-number">Pro Bono & Other</th>
-                            <!-- <th>O</th> -->
+                            <th class="th-number">Hours<br>Billable</th>
+                            <th class="th-number">Other<br><span class="small-small-text">(Pro Bono)</span></th>
+                            <th class="th-checkbox">Pro-rated</th>
 <!-- TODO: How to mark months as not counted -->
                         </tr>
                     </thead>
@@ -121,18 +122,19 @@
                 <!-- Submit-->
                 <div class="button-wrapper">
                     <!-- <button id="calculate" class="knopf" onclick="calcHours()" >Calculate</button> -->
-                    <button id="reset" class="knopf flat" onclick="resetTableHours()">Reset Hours</button>
+                    <button id="reset" class="blue" onclick="resetTableHours()">Reset Hours</button>
                 </div>
             </div>
             
         </div>
-        
-        <div class="instructions mobile">
-            <p>To add the Hours Calculator to your iPhone, tap the <code>share</code> button and the <code>Add&nbsp;to&nbsp;Home&nbsp;Screen</code> option.</p>
-            <p>To add the Hours Calculator on Android, tap the <code>menu&nbsp;icon</code> in Chrome and the <code>Add&nbsp;to&nbsp;homescreen</code> option.</p>
-        </div>
-        <div class="instructions desktop">
-            <p class="center bold">Remember to bookmark this site!</p>
+        <div class="instructions">
+            <div class="mobile">
+                <p>To add the Hours Calculator to your iPhone, tap the <code>share</code> button and the <code>Add&nbsp;to&nbsp;Home&nbsp;Screen</code> option.</p>
+                <p>To add the Hours Calculator on Android, tap the <code>menu&nbsp;icon</code> in Chrome and the <code>Add&nbsp;to&nbsp;homescreen</code> option.</p>
+            </div>
+            <div class="desktop">
+                <p class="center bold">Remember to bookmark this site!</p>
+            </div>
         </div>
         <div id="madeBy">Developed by<br>
             <a href="https://www.prelimine.com" target="_blank" style="padding: 5px 0;"> 

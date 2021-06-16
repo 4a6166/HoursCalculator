@@ -27,6 +27,16 @@
     --prelimine-Gray: 128, 128, 128;
 }
 
+.orange {
+    color: rgba(var(--prelimine-Orange), 1);
+}
+.blue {
+    color: rgba(var(--prelimine-Blue), 1);
+}
+.gray {
+    color: rgba(var(--prelimine-Gray), 1);
+}
+
 body {
     margin: unset;
     padding: unset;
@@ -34,7 +44,7 @@ body {
     display: grid;
     place-items: center;
 
-    font-family: Avenir;
+    font-family: Avenir, sans-serif;
 }
 
 .wrapper {
@@ -109,13 +119,41 @@ button > img {
     flex-direction: row-reverse;
 }
 
-input, select {
-    padding: 5px;
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form > div {
+    display: flex;
+    justify-content: space-between;
+}
+
+form label {
+    max-width: 150px;
+    margin: 10px 0;
+}
+
+div > input, select{
+    /* display:contents; */
+    padding: 10px 5px;
+    height:fit-content;
+
     text-align: center;
     border: 1px solid rgb(var(--prelimine-Gray));
     background-color: inherit;
     margin: 5px;
+    
+    width: 100px;
 }
+
+select {
+    width: 110px;
+}
+
+/* input[type="number"] {
+    max-width: 100px;
+} */
 
 h1 {
     font-size: 2.5rem;
@@ -165,7 +203,9 @@ a:hover{
 
 .small-text {
     font-size: 0.8rem;
-    /* font-size: smaller; */
+}
+.small-small-text {
+    font-size: 0.65rem;
 }
 .bold {
     font-weight: bold;
@@ -249,9 +289,15 @@ td > input {
     margin: auto;
 }
 
+input::placeholder {
+    color: rgba(var(--prelimine-Blue), 5);
+    font-size: 0.85em;
+}
+
 .table-months {
     text-align: left;
-    /* padding-left: 0; */
+    padding-right: 0;
+
 }
 
 .table-number *{
@@ -269,6 +315,10 @@ td > input {
     align-self: right;
     padding-right:5px;
 }
+
+/* .checked {
+
+} */
 
 #outputs {
     z-index: 1;

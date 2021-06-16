@@ -226,12 +226,15 @@ function setUpTable(){
 
     let rowTemplate = `
         <tr>
-            <td class="table-months">{{Month}}</td>
+            <td class="table-months small-text">{{Month}}</td>
             <td class="table-number">
                 <input class="billable" type="number" min="0" max="730" oninput="inputTrim(this, 730)" placeholder="0">
             </td>
             <td class="table-number table-pro-bono">
                 <input class="probono" type="number" min="0" max="730" oninput="inputTrim(this, 703)" placeholder="0">
+            </td>
+            <td class="table-checkbox">
+                <input class=" center" type="checkbox">
             </td>
         </tr>
         `
