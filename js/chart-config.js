@@ -71,7 +71,7 @@ const data_donut = {
                 'Pro Bono Hours Remaining'
             ],
             backgroundColor: [
-                CHART_COLORS.prelimine_Orange,
+                CHART_COLORS.prelimine_Blue,
                 CHART_COLORS.prelimine_Gray,
             ],
             hoverOffset: -4,
@@ -96,7 +96,7 @@ const config_donut = {
         maintainAspectRatio: false,
         // circumference: 30,
         // rotation: 270,
-        rotation: 345,
+        // rotation: 345,
         // cutout: 135,
         cutout: 95,
 

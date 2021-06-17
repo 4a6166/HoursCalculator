@@ -380,7 +380,7 @@ function updateCalcs(){
         }
 
     let adjustedCurrentMonth = currentMonth - num;
-    console.log("Current Month: "+currentMonth +"| Adjusted month: "+adjustedCurrentMonth);
+    // console.log("Current Month: "+currentMonth +"| Adjusted month: "+adjustedCurrentMonth);
     
     for (i = 0; i<12; i++){
         if(data.hours.billable[i] <= 0 && data.hours.proBono[i] <= 0){

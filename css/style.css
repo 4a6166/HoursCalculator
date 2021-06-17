@@ -442,6 +442,13 @@ input:placeholder-shown {
     padding: 15px 0;
 }
 
+.disclaimer p{
+    font-size: 8px;
+    text-align: justify;
+    padding: 0;
+    margin: 0;
+}
+
 .mobile {
     display: none;
 }
