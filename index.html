@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hours Calculator</title>
+    <link rel="icon" type="image/png" href="/img/Key1.png"/>
     <link rel="stylesheet" href="./css/style.css">
     <!-- <link rel="stylesheet" href="./css/knopf.css"> -->
 
@@ -102,6 +103,15 @@
                         <option value="12">December</option>
                     </select>
                 </div>
+                <div class="checkbox">
+                    <div>Prorated Year</div>
+                    <div class="checkbox-wrapper">
+                        <label for="prorated" class="switch">
+                            <input type="checkbox" onclick="showProrated(!data.prorated)" id="prorated" class="toggle">
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
             </form>
             <br>
             <!-- Table -->
@@ -112,9 +122,7 @@
                             <th class="table-months">Month</th>
                             <th class="th-number">Hours<br>Billable</th>
                             <th class="th-number">Other<br><span class="small-small-text">(Pro Bono)</span></th>
-                            <th class="th-checkbox">Pro-rated</th>
-<!-- TODO: How to mark months as not counted -->
-                        </tr>
+                            <th class="th-checkbox">Pro-rated</th>                        </tr>
                     </thead>
                     <tbody>
                     </tbody>
