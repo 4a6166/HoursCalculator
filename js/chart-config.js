@@ -91,14 +91,29 @@ const config_donut = {
     type: 'doughnut',
     data: data_donut,
     options: {
+        /* // full circle
         responsive: true,
-        // aspectRatio: 1,
         maintainAspectRatio: true,
-        // circumference: 30,
-        // rotation: 270,
-        // rotation: 345,
-        // cutout: 135,
         cutout: 95,
+        */
+
+        /* // half circle
+        responsive: false,
+        aspectRatio: 1.8,
+        maintainAspectRatio: false,
+        circumference: 180,
+        rotation: 270,
+        cutout: 55,
+        */
+
+        // arc line
+        responsive: false,
+        aspectRatio: 2.2,
+        maintainAspectRatio: false,
+        circumference: 50,
+        rotation: 335,
+        cutout: 59,
+
 
         plugins: {
             legend: {

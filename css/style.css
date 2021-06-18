@@ -420,6 +420,11 @@ input:placeholder-shown {
     background-color: rgba(var(--prelimine-Blue), 1);
 }
 
+.donutChart {
+    position: relative;
+    top: -50px;
+}
+
 #outputs {
     z-index: 1;
     position: sticky;
