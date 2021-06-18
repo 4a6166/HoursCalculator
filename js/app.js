@@ -15,9 +15,9 @@ function changeVisibility(elementId, buttonID){
     section.classList.contains('hidden') ? section.classList.remove('hidden') : section.classList.add('hidden');
 
     let open = document.getElementById(buttonID).children;
-    for (let i = 0; i < 2; i++) {
+    for (let i = 0; i < open.length; i++) {
         open[i].classList.contains('hidden') ? open[i].classList.remove('hidden') : open[i].classList.add('hidden');
-        
+
     }
 }
 
