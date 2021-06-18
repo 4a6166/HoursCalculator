@@ -93,7 +93,7 @@ const config_donut = {
     options: {
         responsive: true,
         // aspectRatio: 1,
-        maintainAspectRatio: false,
+        maintainAspectRatio: true,
         // circumference: 30,
         // rotation: 270,
         // rotation: 345,
