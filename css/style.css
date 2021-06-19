@@ -435,10 +435,10 @@ input:placeholder-shown {
 }
 
 .billable {
-    max-width: 100px;
+    max-width: 85px;
 }
 .probono {
-    max-width: 100px;
+    max-width: 85px;
 }
 
 .checked {
