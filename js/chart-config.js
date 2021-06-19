@@ -135,6 +135,39 @@ const config_donut = {
 
 //render
     var donut =  new Chart(
-        document.getElementById('chart-dounut'),
+        document.getElementById('chart-dounut_mobile'),
         config_donut
+    )
+
+
+//config
+const config_donut_full = {
+    type: 'doughnut',
+    data: data_donut,
+    options: {
+        // full circle
+        responsive: true,
+        maintainAspectRatio: true,
+        cutout: 95,
+
+        plugins: {
+            legend: {
+                display: false,
+            },
+            title: {
+                display: false,
+            },   
+            tooltip: {
+                callbacks: {
+                    label:labels,
+                }
+            },
+        },
+    },
+};
+
+//render
+    var donut_full =  new Chart(
+        document.getElementById('chart-dounut_desktop'),
+        config_donut_full
     )

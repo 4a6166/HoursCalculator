@@ -436,12 +436,10 @@ input:placeholder-shown {
 }
 
 .donutChart {
-    position: relative;
-    top: -50px;
-    
+    position: relative;   
 }
 
-#chart-dounut{
+.donutChart > canvas{
     /* width:90vw;  */
     width: 337px;
     height:150px ;
@@ -506,7 +504,7 @@ input:placeholder-shown {
         font-size: .9em;
     }
     
-    .instructions .desktop {
+    .desktop {
         display: none;
     }
     
@@ -516,4 +514,18 @@ input:placeholder-shown {
         /* color:rgba(var(--prelimine-Blue), 1) !important; */
     }
     
+    .donutChart.mobile{
+        display: block;
+    }
+    .donutChart {
+        position: relative;
+        top: -50px;
+        
+    }
+
+    .donutChart > canvas{
+        /* width:90vw;  */
+        width: 337px;
+        height:150px ;
+    }
 }

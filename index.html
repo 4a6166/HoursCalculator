@@ -25,13 +25,17 @@
                 <span class="bold">Hours Calculator</span></h1>
             <div id="outputs-graphic" class="stacked below">
                 <!-- <div style="height: 120px;"> -->
-                    <div class="donutChart top" >
-                        <canvas id="chart-dounut" ></canvas>
+                    <div class="donutChart top mobile" >
+                        <canvas id="chart-dounut_mobile" ></canvas>
                     </div>
-                    <div id="hrsBig below center center-text">
+                    <div class="donutChart top desktop">
+                        <canvas id="chart-dounut_desktop"></canvas>
+                    </div>
+
+                    <div id="hrsBig" class="Sbelow center center-text">
                         <span id="hrs" class="big-text bold center center-text"></span>
                         <span id="hrsMo" class="center center-text bold">Hours Per Month</span>
-                        <span class="lighter small-small-text center center-text">Average Needed to Hit Billable Requirement</span>
+                        <span class="lighter small-small-text center center-text">Average Needed to Hit <br class="desktop">Billable Requirement</span>
                     </div>
                 <!-- </div> -->
             </div>

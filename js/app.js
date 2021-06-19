@@ -443,8 +443,11 @@ function updateDonut(){
 
     donut.data.datasets[0].data = data_donut_hours;
     donut.data.datasets[1].data = data_donut_probono;
-
     donut.update();
+
+    donut_full.data.datasets[0].data = data_donut_hours;
+    donut_full.data.datasets[1].data = data_donut_probono;
+    donut_full.update();
 }
 
 // TODO: when #inputs input:focus add .output-shifted to #outputs
