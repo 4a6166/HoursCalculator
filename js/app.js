@@ -27,7 +27,16 @@ function changeVisibility(elementId, buttonID){
 
 //#region Utilities
 function inputTrim(input, max){
-    if (input.value < 0) alert(`Please enter a value between 0 and ${max}`);
+    console.log(input);
+    if (input.value === "" || input.value ===  "0") {
+        input.value = null;
+        return;
+    }
+
+    if (input.value < 0) {
+        alert(`Please enter a value between 0 and ${max}`);
+        input.value = null;
+    }
 
     // input.value = Math.abs(input.value) > 0 ? Math.abs(input.value) : null;
 
@@ -264,7 +273,7 @@ function setUpTable(){
         <tr>
             <td class="table-months small-text">{{Month}}</td>
             <td class="table-number">
-                <input class="billable" type="decimal" inputmode="decimal" autoComplete="off"  pattern="^[0-9]*([\.|\,][0-9])?$" step="0.1" onchange="inputTrim(this, 730)" placeholder="0">
+                <input class="billable" type="number" inputmode="decimal" autoComplete="off"  pattern="^[0-9]*([\.|\,][0-9])?$" step="0.1" onchange="inputTrim(this, 730)" placeholder="0">
             </td>
             <td class="table-number table-pro-bono">
                 <input class="probono" type="number" inputmode="decimal" autoComplete="off"  pattern="^[0-9]*([\.|\,][0-9])?$" step="0.1" onchange="inputTrim(this, 730)" placeholder="0">
