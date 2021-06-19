@@ -12,131 +12,133 @@
 </head>
 <body>
     <div class="wrapper">
-        <!-- Outputs -->
-        <div id="outputs" class="outputs card">
-            <div class="img-wrapper top">
-                <a href="https://www.prelimine.com" target="_blank" class="img-wrapper">
-                    <img class="pilcrow" src="img/Key1.png" height="50px" alt="logo">
-                </a>
-            </div>
-            <h1 class="top">
-                <span class="prelimine normal-weights">prelimine</span>
-                <br>
-                <span class="bold">Hours Calculator</span></h1>
-            <div id="outputs-graphic" class="stacked below">
-                <!-- <div style="height: 120px;"> -->
-                    <div class="donutChart top mobile" >
-                        <canvas id="chart-dounut_mobile" ></canvas>
-                    </div>
-                    <div class="donutChart top desktop">
-                        <canvas id="chart-dounut_desktop"></canvas>
-                    </div>
+        <div class="cards-wrapper">
+            <!-- Outputs -->
+            <div id="outputs" class="outputs card">
+                <div class="img-wrapper top">
+                    <a href="https://www.prelimine.com" target="_blank" class="img-wrapper">
+                        <img class="pilcrow" src="img/Key1.png" height="50px" alt="logo">
+                    </a>
+                </div>
+                <h1 class="top">
+                    <span class="prelimine normal-weights">prelimine</span>
+                    <br>
+                    <span class="bold">Hours Calculator</span></h1>
+                <div id="outputs-graphic" class="stacked below">
+                    <!-- <div style="height: 120px;"> -->
+                        <div class="donutChart top mobile" >
+                            <canvas id="chart-dounut_mobile" ></canvas>
+                        </div>
+                        <div class="donutChart top desktop">
+                            <canvas id="chart-dounut_desktop"></canvas>
+                        </div>
 
-                    <div id="hrsBig" class="Sbelow center center-text">
-                        <span id="hrs" class="big-text bold center center-text"></span>
-                        <span id="hrsMo" class="center center-text bold">Hours Per Month</span>
-                        <span class="lighter small-small-text center center-text">Average Needed to Hit <br class="desktop">Billable Requirement</span>
+                        <div id="hrsBig" class="Sbelow center center-text">
+                            <span id="hrs" class="big-text bold center center-text"></span>
+                            <span id="hrsMo" class="center center-text bold">Hours Per Month</span>
+                            <span class="lighter small-small-text center center-text">Average Needed to Hit <br class="desktop">Billable Requirement</span>
+                        </div>
+                    <!-- </div> -->
+                </div>
+                <div id="outputs-data-section" class="top">
+                    <div class="button-wrapper">
+                        <button id="outputs-visibility" class="bold"  onclick="changeVisibility('outputs-data', 'outputs-visibility')" >
+                            <span class="bold small-text hidden" style="display: unset;" >Calculations</span>
+                            <img class="outputClose hidden" src="img/chevron-up.svg" alt="close" >
+                            <img class="outputOpen" src="img/chevron-down.svg" alt="open">
+                        </button>
                     </div>
-                <!-- </div> -->
+                    <div id="outputs-data" class="outputs-data hidden">
+                        <div>
+                            <div>Hrs/Mo to Hit Bonus:</div>
+                            <div id="hrsLeftPerMonth" class="bold">0</div>
+                        </div>
+                        <hr>
+                        <div>
+                            <div>Months Left till Year End:</div>
+                            <div id="monthsLeft" class="bold">0</div>
+                        </div>
+                        <div>
+                            <div>Billable Hours To Go:</div>
+                            <div id="hrsLeftBillable" class="bold">0</div>
+                        </div>
+                        <div>
+                            <div>Pro Bono Hours Left:</div>
+                            <div id="hrsLeftProBono" class="bold">0</div>
+                        </div>
+                        <hr>
+                        <div>
+                            <div>Months without Hours</div>
+                            <div id="monthsWithoutHours" class="bold">X</div>
+                        </div>
+                        <div>
+                            <div>Future Months with Hours</div>
+                            <div id="monthsWithHoursFuture" class="bold">X</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div id="outputs-data-section" class="top">
-                <div class="button-wrapper">
-                    <button id="outputs-visibility" class="bold"  onclick="changeVisibility('outputs-data', 'outputs-visibility')" >
-                        <span class="bold small-text hidden" style="display: unset;" >Calculations</span>
-                        <img class="outputClose hidden" src="img/chevron-up.svg" alt="close" >
-                        <img class="outputOpen" src="img/chevron-down.svg" alt="open">
-                    </button>
-                </div>
-                <div id="outputs-data" class="hidden">
+            <div id="inputs" class="inputs card">
+                <!-- Header Inputs -->
+                <form>
                     <div>
-                        <div>Hrs/Mo to Hit Bonus:</div>
-                        <div id="hrsLeftPerMonth" class="bold">0</div>
-                    </div>
-                    <hr>
-                    <div>
-                        <div>Months Left till Year End:</div>
-                        <div id="monthsLeft" class="bold">0</div>
+                        <label for="BillHrReq">Billable Hours<br><span class="small-small-text">Annual Requirement</span></label>
+                        <input required type="number" id="BillHrReq" name="BillHrReq" oninput="inputTrim(this, 8760)" placeholder="2300">
                     </div>
                     <div>
-                        <div>Billable Hours To Go:</div>
-                        <div id="hrsLeftBillable" class="bold">0</div>
+                        <label for="PBHrs">Other Hours<br><span class="small-small-text">Counting Towards Biillables</span></label>
+                        <input type="number" id="PBHrs" name="PBHrs" oninput="inputTrim(this, 8760)" placeholder="20">
                     </div>
+                    
                     <div>
-                        <div>Pro Bono Hours Left:</div>
-                        <div id="hrsLeftProBono" class="bold">0</div>
+                        <label for="billableYearMonth">Beginning Month<br><span class="small-small-text">of the Billable Year</span></label>
+                        <select id="billableYearMonth" name="billableYearMonth">
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
                     </div>
-                    <hr>
-                    <div>
-                        <div>Months without Hours</div>
-                        <div id="monthsWithoutHours" class="bold">X</div>
+                    <div class="checkbox">
+                        <div>Prorated Year</div>
+                        <div class="checkbox-wrapper">
+                            <label for="prorated" class="switch">
+                                <input type="checkbox" onclick="showProrated(!data.prorated)" id="prorated" class="toggle">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
                     </div>
-                    <div>
-                        <div>Future Months with Hours</div>
-                        <div id="monthsWithHoursFuture" class="bold">X</div>
+                </form>
+                <br>
+                <!-- Table -->
+                <div class="table-wrapper">
+                    <table id="hrsTable" >
+                        <thead>
+                            <tr>
+                                <th class="table-months">Month</th>
+                                <th class="th-number">Hours<br>Billable</th>
+                                <th class="th-number">Other<br><span class="small-small-text">(Pro Bono)</span></th>
+                                <th class="th-checkbox">Pro-<br>rated</th>                        </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                    <!-- Submit-->
+                    <div class="button-wrapper">
+                        <!-- <button id="calculate" class="knopf" onclick="calcHours()" >Calculate</button> -->
+                        <button id="reset" class="blue" onclick="resetTableHours()">Reset Hours</button>
                     </div>
-                </div>
-            </div>
-        </div>
-        <div id="inputs" class="inputs card">
-            <!-- Header Inputs -->
-            <form>
-                <div>
-                    <label for="BillHrReq">Billable Hours<br><span class="small-small-text">Annual Requirement</span></label>
-                    <input required type="number" id="BillHrReq" name="BillHrReq" oninput="inputTrim(this, 8760)" placeholder="2300">
-                </div>
-                <div>
-                    <label for="PBHrs">Other Hours<br><span class="small-small-text">Counting Towards Biillables</span></label>
-                    <input type="number" id="PBHrs" name="PBHrs" oninput="inputTrim(this, 8760)" placeholder="20">
                 </div>
                 
-                <div>
-                    <label for="billableYearMonth">Beginning Month<br><span class="small-small-text">of the Billable Year</span></label>
-                    <select id="billableYearMonth" name="billableYearMonth">
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
-                </div>
-                <div class="checkbox">
-                    <div>Prorated Year</div>
-                    <div class="checkbox-wrapper">
-                        <label for="prorated" class="switch">
-                            <input type="checkbox" onclick="showProrated(!data.prorated)" id="prorated" class="toggle">
-                            <span class="slider round"></span>
-                        </label>
-                    </div>
-                </div>
-            </form>
-            <br>
-            <!-- Table -->
-            <div class="table-wrapper">
-                <table id="hrsTable" >
-                    <thead>
-                        <tr>
-                            <th class="table-months">Month</th>
-                            <th class="th-number">Hours<br>Billable</th>
-                            <th class="th-number">Other<br><span class="small-small-text">(Pro Bono)</span></th>
-                            <th class="th-checkbox">Pro-<br>rated</th>                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-                <!-- Submit-->
-                <div class="button-wrapper">
-                    <!-- <button id="calculate" class="knopf" onclick="calcHours()" >Calculate</button> -->
-                    <button id="reset" class="blue" onclick="resetTableHours()">Reset Hours</button>
-                </div>
             </div>
-            
         </div>
         <div class="instructions">
             <div class="mobile">

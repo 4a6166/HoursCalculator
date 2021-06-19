@@ -48,18 +48,17 @@ body {
 }
 
 .wrapper {
-    /* width: 375px; */
-    /* width: Calc(375px - 2em); */
-    max-width: 500px ;
-    /* margin: auto; */
     margin: auto 5px;
+    max-width: 1200px;
 }
 
-.hidden {
-    display: none;
+.cards-wrapper {
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .card {
+    width: 500px;
     margin-top: 15px;
     margin-bottom: 15px;
     padding: 15px;
@@ -120,7 +119,7 @@ button img {
 
 .button-wrapper {
     display: flex;
-    flex-direction: row-reverse;
+    justify-content: flex-end;
 }
 
 form {
@@ -440,9 +439,8 @@ input:placeholder-shown {
 }
 
 .donutChart > canvas{
-    /* width:90vw;  */
-    width: 337px;
-    height:150px ;
+    width: 500px;
+    height:500px ;
 }
 
 #outputs {
@@ -450,9 +448,9 @@ input:placeholder-shown {
     position: sticky;
     top: 0;
 
-    margin-top: 0;
-    border-radius: 0 0 15px 15px;
+    border-radius: 15px;
 }
+
 
 #outputs-data *{
     display:block;
@@ -463,6 +461,13 @@ input:placeholder-shown {
     justify-content: space-between;
 }
 
+#outputs-visibility{
+    display: none;
+}
+
+#outputs-data-section {
+    margin-top: 75px;;
+}
 
 #inputs {
     background: whitesmoke;
@@ -499,6 +504,20 @@ input:placeholder-shown {
     /* and (-webkit-min-device-pixel-ratio: 3) 
     and (orientation: portrait) { */
 {
+
+    .wrapper {
+        max-width: 500px ;
+        margin: auto 5px;
+    }
+
+    .cards-wrapper {
+        display: block;
+    }
+
+    .card {
+        width: auto;
+    }
+    
     .instructions .mobile {
         display: inherit;
         font-size: .9em;
@@ -513,6 +532,18 @@ input:placeholder-shown {
         top: -50px !important;
         /* color:rgba(var(--prelimine-Blue), 1) !important; */
     }
+
+    #outputs {
+        z-index: 1;
+        position: sticky;
+        top: 0;
+
+        width: auto;
+    
+        margin-top: 0;
+        border-radius: 0 0 15px 15px;
+    }
+    
     
     .donutChart.mobile{
         display: block;
@@ -527,5 +558,18 @@ input:placeholder-shown {
         /* width:90vw;  */
         width: 337px;
         height:150px ;
+    }
+
+    #outputs-data-section {
+        margin-top: unset;
+    }
+
+    #outputs-visibility {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .hidden{
+        display: none;
     }
 }

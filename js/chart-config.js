@@ -148,7 +148,8 @@ const config_donut_full = {
         // full circle
         responsive: true,
         maintainAspectRatio: true,
-        cutout: 95,
+        // cutout: 95,
+        cutout: 130,
 
         plugins: {
             legend: {
