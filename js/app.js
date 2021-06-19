@@ -264,10 +264,10 @@ function setUpTable(){
         <tr>
             <td class="table-months small-text">{{Month}}</td>
             <td class="table-number">
-                <input class="billable" type="number" min="0" max="730" oninput="inputTrim(this, 730)" placeholder="0">
+                <input class="billable" type="number" pattern="[0-9]+([\,|\.][0-9])" step="0.1" min="0" max="730" oninput="inputTrim(this, 730)" placeholder="0">
             </td>
             <td class="table-number table-pro-bono">
-                <input class="probono" type="number" min="0" max="730" oninput="inputTrim(this, 703)" placeholder="0">
+                <input class="probono" type="number" pattern="[0-9]+([\,|\.][0-9])" step="0.1" min="0" max="730" oninput="inputTrim(this, 703)" placeholder="0">
             </td>
             <td class="table-checkbox">
                 <input class="checkbox center" type="checkbox">
