@@ -69,6 +69,10 @@ body {
     background-color: whitesmoke;
 }
 
+.hidden_prorated{
+    display: none;
+}
+
 /* !I #region stacked //////////////////////////////////////////////////////////// */
     .stacked {
         display: grid;
@@ -428,6 +432,13 @@ input:placeholder-shown {
 
 .th-checkbox, .table-checkbox{
     width: fit-content;
+}
+
+.billable {
+    max-width: 100px;
+}
+.probono {
+    max-width: 100px;
 }
 
 .checked {

@@ -29,9 +29,9 @@ function changeVisibility(elementId, buttonID){
 function inputTrim(input, max){
     if (input.value < 0) alert(`Please enter a value between 0 and ${max}`);
 
-    input.value = Math.abs(input.value) > 0 ? Math.abs(input.value) : null;
+    // input.value = Math.abs(input.value) > 0 ? Math.abs(input.value) : null;
 
-    input.value = input.value < Number(max) ? input.value : null;
+    input.value = input.value < Number(max) ? Math.round(input.value * 10)/10 : null;
 
 }
 
@@ -203,15 +203,15 @@ function updateData(){
 function showProrated(prorated){
     // let prorated = !data.prorated;
     if(prorated){
-        table.children[0].children[0].children[3].classList.remove("hidden");
+        table.children[0].children[0].children[3].classList.remove("hidden_prorated");
         for (let i = 0; i<12; i++){
-            tableRows[i].children[3].classList.remove("hidden");
+            tableRows[i].children[3].classList.remove("hidden_prorated");
         }
     } else {
-        table.children[0].children[0].children[3].classList.add("hidden");
+        table.children[0].children[0].children[3].classList.add("hidden_prorated");
 
         for (let i = 0; i<12; i++){
-            tableRows[i].children[3].classList.add("hidden");
+            tableRows[i].children[3].classList.add("hidden_prorated");
         }
     }
 }
@@ -264,10 +264,10 @@ function setUpTable(){
         <tr>
             <td class="table-months small-text">{{Month}}</td>
             <td class="table-number">
-                <input class="billable" type="number" inputmode="decimal" autoComplete="off" unit="hours" pattern="[0-9]+([\.|\,][0-9])*(?![\.|\,])" step="0.1" placeholder="0">
+                <input class="billable" type="decimal" inputmode="decimal" autoComplete="off"  pattern="^[0-9]*([\.|\,][0-9])?$" step="0.1" onchange="inputTrim(this, 730)" placeholder="0">
             </td>
             <td class="table-number table-pro-bono">
-                <input class="probono" type="number" inputmode="numeric" pattern="[0-9]+([\.|\,][0-9])*(?![\.|\,])" step="0.1" min="0" max="730" placeholder="0">
+                <input class="probono" type="number" inputmode="decimal" autoComplete="off"  pattern="^[0-9]*([\.|\,][0-9])?$" step="0.1" onchange="inputTrim(this, 730)" placeholder="0">
             </td>
             <td class="table-checkbox">
                 <input class="checkbox center" type="checkbox">
