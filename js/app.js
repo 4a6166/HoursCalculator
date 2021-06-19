@@ -438,7 +438,6 @@ function updateDonut(){
         if(i>=(12-calcs.monthsRemaining)){
             donut.data.datasets[0].backgroundColor[i] = CHART_COLORS.prelimine_Gray;
         } else donut.data.datasets[0].backgroundColor[i] = CHART_COLORS.prelimine_Orange;
-        //TODO: set else statement to provide orange that goes from pale to bright (some rbg value * (i/monthsRemaining))
         
     }
 
@@ -447,4 +446,8 @@ function updateDonut(){
 
     donut.update();
 }
+
+// TODO: when #inputs input:focus add .output-shifted to #outputs
+
+
 

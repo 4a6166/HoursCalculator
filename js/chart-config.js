@@ -112,7 +112,9 @@ const config_donut = {
         maintainAspectRatio: false,
         circumference: 50,
         rotation: 335,
-        cutout: 59,
+        // cutout: 59,
+        // cutout:91,
+        cutout: 68,
 
 
         plugins: {

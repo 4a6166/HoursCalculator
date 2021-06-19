@@ -432,6 +432,13 @@ input:placeholder-shown {
 .donutChart {
     position: relative;
     top: -50px;
+    
+}
+
+#chart-dounut{
+    /* width:90vw;  */
+    width: 337px;
+    height:150px ;
 }
 
 #outputs {
@@ -481,6 +488,7 @@ input:placeholder-shown {
     display: none;
 }
 
+
 /* mobile */
 @media only screen  
     and (max-width: 812px) 
@@ -494,6 +502,12 @@ input:placeholder-shown {
     
     .instructions .desktop {
         display: none;
+    }
+    
+    .output-shifted{
+        position:relative !important;
+        top: -50px !important;
+        /* color:rgba(var(--prelimine-Blue), 1) !important; */
     }
     
 }
