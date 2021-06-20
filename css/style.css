@@ -517,7 +517,8 @@ input:placeholder-shown {
 {
 
     .wrapper {
-        max-width: 500px ;
+        /* max-width: 500px ; */
+        width:300px;
         margin: auto 5px;
     }
 
