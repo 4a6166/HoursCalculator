@@ -600,6 +600,9 @@ input:placeholder-shown {
         height: 140px;
     }
 
+    #hrs{
+        min-height: 49px;
+    }
     #outputs-data-section {
         margin-top: unset;
     }
