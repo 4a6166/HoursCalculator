@@ -567,9 +567,37 @@ input:placeholder-shown {
     }
 
     .donutChart > canvas{
-        /* width:90vw;  */
-        width: 337px;
+        width:270px;
+        /* width: 337px; */
         height:150px ;
+    }
+
+    .big-text{
+        font-size: 30pt;
+    }
+
+    h1 span{
+        font-size: 18pt;
+    }
+
+    table {
+        margin: 0;
+        padding: 0;
+    }
+    table * {
+        margin: 0;
+        padding: 10px 5px;
+    }
+    table input[type="number"]{
+        width:50px;
+    }
+
+    .table-number{
+        font-size: 85%;
+    }
+
+    #outputs-graphic{
+        height: 140px;
     }
 
     #outputs-data-section {

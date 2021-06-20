@@ -106,6 +106,15 @@ const config_donut = {
         cutout: 55,
         */
 
+        // arc small
+        responsive: false,
+        aspectRatio: 1.4,
+        maintainAspectRatio: false,
+        circumference: 180,
+        rotation: 270,
+        cutout: 50,
+
+        /*
         // arc line
         responsive: false,
         aspectRatio: 2.2,
@@ -115,7 +124,7 @@ const config_donut = {
         // cutout: 59,
         // cutout:91,
         cutout: 68,
-
+        */
 
         plugins: {
             legend: {
