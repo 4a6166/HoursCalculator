@@ -508,17 +508,26 @@ input:placeholder-shown {
     display: none;
 }
 
+@media only screen
+    and (max-width: 300px)
+{
+    .wrapper{
+        max-width: 300px;
+        margin: 0;
+    }
+}
 
 /* mobile */
 @media only screen  
-    and (max-width: 812px) 
+    /* and (max-width: 812px)  */
+    and (max-width: 1150px) 
     /* and (-webkit-min-device-pixel-ratio: 3) 
     and (orientation: portrait) { */
 {
 
     .wrapper {
-        /* max-width: 500px ; */
-        width:300px;
+        max-width: 500px ;
+        /* width:300px; */
         margin: auto 5px;
     }
 
@@ -562,7 +571,7 @@ input:placeholder-shown {
     }
     .donutChart {
         position: relative;
-        top: -50px;
+        top: -40px;
         
     }
 
@@ -588,13 +597,21 @@ input:placeholder-shown {
         margin: 0;
         padding: 10px 5px;
     }
+
     table input[type="number"]{
-        width:50px;
+        width:15vw;
     }
 
     .table-number{
         font-size: 85%;
     }
+
+    .table-checkbox{
+        padding-top: 20px;
+        padding-bottom: 0;
+    }
+    
+    
 
     #outputs-graphic{
         height: 140px;

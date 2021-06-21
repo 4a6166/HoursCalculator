@@ -67,7 +67,7 @@ const data_donut = {
             label: 'Pro Bono',
             data: data_donut_probono,
             labels: [
-                'Pro Bono Hour Completed',
+                'Pro Bono Hours Completed',
                 'Pro Bono Hours Remaining'
             ],
             backgroundColor: [
