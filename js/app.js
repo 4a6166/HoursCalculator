@@ -449,12 +449,27 @@ function updateCalcs(){
             calcs.updatedReq.proBono = data.hoursAllowableProBono - calcs.hrsProBonoProrated
 
             calcs.hrsToGoBillable = calcs.updatedReq.billable - calcs.hrsCountedBillable - calcs.hrsCountedProBono;
-            calcs.hrsLeftProBono = calcs.updatedReq.proBono - calcs.hrsCountedProBono;
-            
-            calcs.hrsLeft_PerMonth = calcs.hrsToGoBillable / calcs.monthsRemaining;
-            
+            calcs.hrsLeftProBono = calcs.updatedReq.proBono - calcs.hrsCountedProBono;            
         }
         setHrsLeft();
+
+        function setHrsLeft_PerMonth(){
+            // calcs.hrsLeft_PerMonth = (calcs.hrsToGoBillable - (calcs.hrsLoggedBillable - hrsCountedBillable) )/ (calcs.monthsRemaining - calcs.monthsWithHoursFuture);
+
+            let hours = calcs.hrsToGoBillable;
+            let months = calcs.monthsRemaining;
+
+            for (i = 0; i<tableArray.length; i++){
+                if(tableArray[i][4] == "future" && tableArray[i][0] > 0 && !tableArray[i][2]){
+                    hours -= tableArray[i][0];
+                    months--;
+                }
+            }
+
+            calcs.hrsLeft_PerMonth = hours / months;
+
+        }
+        setHrsLeft_PerMonth();
     }
 
 
@@ -482,7 +497,7 @@ function updateCalcs(){
         
                 if(i>=(12-calcs.monthsRemaining)){
                     if (tableArray[i][0] >0){
-                        donut.data.datasets[0].backgroundColor[i] = CHART_COLORS.prelimine_Blue;
+                        donut.data.datasets[0].backgroundColor[i] = CHART_COLORS.prelimine_Orange_Light;
                     } else {
                         donut.data.datasets[0].backgroundColor[i] = CHART_COLORS.prelimine_Gray;
                     }

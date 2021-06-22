@@ -6,6 +6,7 @@ function transparentize(value, opacity) {
 
 const CHART_COLORS = {
     prelimine_Orange: 'rgb(221, 109, 79)',
+    prelimine_Orange_Light: 'rgba(221, 109, 79, 0.3)',
     prelimine_Blue: 'rgb(77, 130, 184)',
     prelimine_Gray: 'rgb(128, 128, 128)',
 };
