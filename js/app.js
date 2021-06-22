@@ -173,6 +173,7 @@ let data = {
         billable: [],
         proBono: [],
         prorated: [],
+        monthId: [0,1,2,3,4,5,6,7,8,9,10,11]
     }
 };
 
@@ -182,7 +183,18 @@ let calcs = {
     hrsLeft_ProBono: undefined,
     hrsLeft_PerMonth: undefined,
     monthsWithoutHours: undefined,
+    pastMonths: [],
     monthsWithHoursFuture: undefined,
+    futureMonths: [],
+
+    proratedMonthsCount: undefined,
+    billableReqProrated: undefined,
+    proBonoAllowableProrated: undefined,
+    proBonoHoursCharged: undefined,
+
+    hoursCounted: undefined,
+    hoursFuture: undefined,
+
 };
 
 const output = {
@@ -221,6 +233,7 @@ function handleChange(e){
     localStorage.setItem("hrsCalculator", JSON.stringify(data));
     updateTable();
 }
+
 function handleChange_table(e){
     console.log("Setting Local Storage");
     updateData();
@@ -229,20 +242,14 @@ function handleChange_table(e){
     localStorage.setItem("hrsCalculator", JSON.stringify(data));
 }
 
-
 //#region Update and storage
 function updateData(){
     console.log(`Updating Data`);
-    console.log(data.hours.billable);
     data.hoursAllowableProBono = Number(input.hoursAllowableProBono.value);
     data.hoursRequirement = Number(input.hoursRequirement.value);
     data.prorated = input.proratedYear.checked;
 
-    // data.hours.billable = [];
-    // data.hours.proBono = [];
-    // data.hours.prorated = [];
-
-    console.log(data.startMonth+" "+switchMonthNumToString(data.startMonth));
+    // console.log(data.startMonth+" "+switchMonthNumToString(data.startMonth));
 
     for (let i = 0; i<12; i++){
         let j = circleMonthsReverse(i-data.startMonth);
@@ -254,17 +261,13 @@ function updateData(){
     }
 
     data.startMonth = Number(input.billableYearMonthPicker.value);
-
 }
 
-function setHours(){
-    for (let i= 0; i<12; i++){
-        input.tableRows[i].children[1].children[0].value = i;
-    }
+function resetHours(){
     data.hours.billable = [0,1,2,3,4,5,6,7,8,9,10,11];
+    updateTable();
     localStorage.setItem("hrsCalculator", JSON.stringify(data));
 }
-
 
 function updateTable() {
     console.log(`Updating Table`);
@@ -298,8 +301,8 @@ function resetTableHours(){
     localStorage.setItem("hrsCalculator", JSON.stringify(data));
 }
 
-
 function updateOutput() {
+    console.log("Updating Output");
     output.monthsRemaining.textContent = calcs.monthsRemaining;
     output.hoursRemaining.textContent = calcs.hrsLeft_Total;
     output.hrsLeftProBono.textContent = calcs.hrsLeft_ProBono;
@@ -308,11 +311,6 @@ function updateOutput() {
     output.monthsWithHoursFuture.textContent = calcs.monthsWithHoursFuture;
     output.hrsBig.textContent = calcs.hrsLeft_PerMonth;
 }
-
-
-
-
-
 
 //#endregion
 
@@ -335,104 +333,101 @@ function setMonthsRemaining()
     return result;
 }
 
-function setHrsLeftProBono(){
+function setProratedMonthsCount(){
+    let count = 0;
+    for(let i =0; i<12; i++){
+        if (data.hours.prorated[i]){
+            count++;
+        }
+    }
+    calcs.proratedMonthsCount = count;
+    calcs.billableReqProrated = data.hoursRequirement*((12-calcs.proratedMonthsCount)/12);
+    calcs.proBonoAllowableProrated = data.hoursAllowableProBono*((12-calcs.proratedMonthsCount)/12);
+    return count;
+}
 
-    let proBonoHrsTotal = 0;
+function setHrsLeftProBono(){
+    calcs.proBonoHoursCharged = 0;
 
     for (i = 0; i<data.hours.proBono.length; i++){
         if(data.hours.proBono[i]){
-            proBonoHrsTotal += data.hours.proBono[i];
+            calcs.proBonoHoursCharged += data.hours.proBono[i];
         }
     }
     
-    calcs.hrsLeft_ProBono =  proBonoHrsTotal > data.hoursAllowableProBono ? 0 : Math.ceil(data.hoursAllowableProBono - proBonoHrsTotal);
+    calcs.hrsLeft_ProBono =  calcs.proBonoHoursCharged > calcs.proBonoAllowableProrated ? 0 : Math.ceil(calcs.proBonoAllowableProrated - calcs.proBonoHoursCharged);
 
-    return proBonoHrsTotal;
+    return calcs.proBonoHoursCharged;
 }
 
-
-
-
 function setHrsLeftTot(){
-    let result = 0;
+    let billedHrs = 0;
+    let proBonoUsed = calcs.proBonoHoursCharged < calcs.proBonoAllowableProrated ? calcs.proBonoHoursCharged : calcs.proBonoAllowableProrated; 
+    let m = circleMonths(i+data.startMonth);
 
     for (let i = 0; i< data.hours.billable.length; i++){
-        if (!data.hours.prorated[i] && i < (12-calcs.monthsRemaining)){
-            result += data.hours.billable[i];
+        if (!data.hours.prorated[i] && m < currentMonth){
+            billedHrs += data.hours.billable[i];
         }
     }
-    calcs.hrsLeft_Total = Math.ceil(result);
-    return result;
+
+    let result = calcs.billableReqProrated-billedHrs - proBonoUsed;
+    calcs.hrsLeft_Total = result > 0 ? Math.ceil(result) : 0;
 }
 
 function setHrsLeftPerMonth(){
 
-    let result = 0;
-
-    calcs.hrsLeft_PerMonth = Math.ceil(result);
+    let result = calcs.hrsLeft_Total/(calcs.monthsRemaining - calcs.monthsWithHoursFuture);
+ 
+    calcs.hrsLeft_PerMonth = result >0 ? Math.ceil(result) : 0;
     return result;
 }
 
-function setMonthsWithoutHours(){
-    let result = 0;
+function setPastFutureMonths(){
+    let startMonth = data.startMonth;
+    calcs.monthsWithoutHours = 0;
+    calcs.monthsWithHoursFuture = 0;
 
-    calcs.monthsWithoutHours = Math.ceil(result);
-    return result;
-}
+    for (i= 0; i <12; i++){
 
-function setFutureMonthsWithHours(){
-    let result = 0;
+        if (i >=startMonth && i < currentMonth){
+            calcs.pastMonths.push(i);
+            if(data.hours.billable[i] == 0 || data.hours.billable[i] == null || data.hours.billable[i] == undefined ){
+                calcs.monthsWithoutHours++;
+            }
+        } else if (i<startMonth && i> currentMonth){
+            calcs.pastMonths.push(i);
+            if(data.hours.billable[i] == 0 || data.hours.billable[i] == null || data.hours.billable[i] == undefined ){
+                calcs.monthsWithoutHours++;
+            }
+        } else if (i >startMonth && i>currentMonth){
+            calcs.futureMonths.push(i);
+            if(data.hours.billable[i] >0){
+                calcs.monthsWithHoursFuture++;
+            }
+        } else if(i < startMonth && i<currentMonth){
+            calcs.futureMonths.push(i);
+            if(data.hours.billable[i] >0){
+                calcs.monthsWithHoursFuture++;
+            }
+        }
 
-    calcs.monthsWithHoursFuture = Math.ceil(result);
-    return result;
+    }
 }
 
 function updateCalcs(){
     console.log(`Updating Calcs`);
     setMonthsRemaining();
+    setProratedMonthsCount();
+    setPastFutureMonths();
     setHrsLeftProBono();
     setHrsLeftTot();
     setHrsLeftPerMonth();
 
-    setMonthsWithoutHours();
-    setFutureMonthsWithHours();
 
     setDonutHours();
 
     return true;
-
-    let billHrsTotal = 0;
-    let billHrsLeft = 0;
-
-
-    let proratedMonths = 0;
-    let proratedMonthsRemaining = 0;
-
-
-    for (i = 0; i<data.hours.billable.length; i++){
-        if(data.hours.billable[i]){
-            billHrsTotal += data.hours.billable[i];
-        }
-    }
-
-    proBonoHrsUsed = data.hoursAllowableProBono - calcs.hrsLeft_ProBono;
-    billHrsLeft = data.hoursRequirement - billHrsTotal - proBonoHrsUsed;
-
-    
-    for(i=0; i<12; i++){
-        if(data.hours.prorated[i]){
-            proratedMonths++;
-        }
-
-        if(data.hours.prorated[i] && i > adjustedCurrentMonth){
-            proratedMonthsRemaining++;
-        }        
-    }
-
-    calcs.hrsLeft_Total = billHrsLeft > 0 ? Math.ceil(billHrsLeft*((12-proratedMonths)/12)) : 0;
-
-    calcs.hrsLeft_PerMonth = Math.ceil(calcs.hrsLeft_Total/(calcs.monthsRemaining-proratedMonthsRemaining));
-
 }
 
 function setDonutHours(){
@@ -493,9 +488,11 @@ function updateDonut(){
         input.proratedYear.checked = data.prorated;
 
         console.log(data);
-        updateTable();
+        // updateData();
         updateCalcs();
         updateOutput();
+        updateTable();
+
     } else {
         console.log("Hours Calculator local information not found");
 
@@ -504,9 +501,9 @@ function updateDonut(){
         data.startMonth = 0;
 
         updateTable();
-        // updateCalcs();
     }
 
     showProrated(data.prorated);
 
+    // changeVisibility('outputs-data', 'outputs-visibility');
 })();
