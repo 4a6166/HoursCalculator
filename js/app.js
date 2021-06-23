@@ -356,11 +356,11 @@ function updateCalcs(){
             }
             t.push(row);
         }
-        console.log(t);
         return t;
     })()
 
-    let currentMonthShifted = currentMonth >= startMonth ? currentMonth - startMonth : currentMonth + 12 - startMonth;
+    let currentMonthShifted = currentMonth > startMonth ? currentMonth - startMonth 
+                                                : currentMonth + 12 - startMonth;
 
     { // funcs that do NOT rely on other calcs
         let setMonthsRemaining = (function(){
@@ -368,6 +368,7 @@ function updateCalcs(){
             calcs.monthsFuture = [];
             calcs.monthsPast = [];
             for (i=0; i<tbl.length; i++){
+                
                 if (i >= currentMonthShifted){
                     result++;
                     calcs.monthsFuture.push(tbl[i].monthId);
@@ -460,7 +461,10 @@ function updateCalcs(){
                 }
             }
 
-            calcs.hrsLeft_PerMonth = hours / months;
+            calcs.hrsLeft_PerMonth = calcs.hrsToGoBillable <= 0 ? 0 :
+                                        hours < 0 ? 0 :
+                                        months > 0 ? hours / months :
+                                        0;
 
         })();
     }
@@ -588,7 +592,19 @@ function setTestHours(option){
             localStorage.setItem("hrsCalculator", JSON.stringify(data));
             Load();
             break;
-    
+        case "f1":
+            data.startMonth = 1;
+            data.hoursRequirement = 2100;
+            data.hoursAllowableProBono = 100;
+            data.hours.billable = [194, 190, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+            data.hours.proBono = [0,0,0,0,0,0,0,0,0,0,0,0];
+            data.prorated = false; 
+            data.hours.prorated = [true, true, false, false, false, false, false, false, false, false, false, false];
+
+            localStorage.setItem("hrsCalculator", JSON.stringify(data));
+            Load();
+            break;
+        
         default:
             console.log("Options: 0, 1, 2");
     }
