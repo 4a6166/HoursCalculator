@@ -478,10 +478,14 @@ function updateCalcs(){
         for (i=0; i<tbl.length; i++){
             if(tbl[i].isExcluded){
                 data_donut_hours.push(0);
-            } else if(tbl[i].isPast == true || tbl[i].hrsBillable > 0){
+            } else if(tbl[i].isPast == true){
                 data_donut_hours.push(Math.ceil(tbl[i].hrsBillable));
-            } else {
-                data_donut_hours.push(Math.ceil(calcs.hrsLeft_PerMonth));
+            } else { 
+                if(tbl[i].hrsBillable > 0){
+                    data_donut_hours.push(Math.ceil(tbl[i].hrsBillable));
+                } else {
+                    data_donut_hours.push(Math.ceil(calcs.hrsLeft_PerMonth));
+                }
                 hrsFutureProBono += tbl[i].hrsProBono;
             }
         }
