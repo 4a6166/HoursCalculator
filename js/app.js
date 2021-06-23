@@ -11,18 +11,18 @@ function changeVisibility(elementId, buttonID){
     }
 }
 
-function showProrated(prorated){
-    // let prorated = !data.prorated;
-    if(prorated){
-        input.table.children[0].children[0].children[3].classList.remove("hidden_prorated");
+function showExcluded(exclude){
+console.log("exclude:" +exclude)
+    if(exclude){
+        input.table.children[0].children[0].children[3].classList.remove("hidden_exclude");
         for (let i = 0; i<12; i++){
-            input.tableRows[i].children[3].classList.remove("hidden_prorated");
+            input.tableRows[i].children[3].classList.remove("hidden_exclude");
         }
     } else {
-        input.table.children[0].children[0].children[3].classList.add("hidden_prorated");
+        input.table.children[0].children[0].children[3].classList.add("hidden_exclude");
 
         for (let i = 0; i<12; i++){
-            input.tableRows[i].children[3].classList.add("hidden_prorated");
+            input.tableRows[i].children[3].classList.add("hidden_exclude");
         }
     }
 }
@@ -167,12 +167,12 @@ let data = {
     hoursRequirement: undefined,
     hoursAllowableProBono: undefined,
     startMonth: undefined,
-    prorated: false,
+    excludeMonths: false,
 
     hours: {
         billable: [],
         proBono: [],
-        prorated: [],
+        excluded: [],
         monthId: [0,1,2,3,4,5,6,7,8,9,10,11]
     }
 };
@@ -193,9 +193,9 @@ let calcs = {
     monthsWithHoursFuture: undefined,
     monthsWithoutHoursPast: undefined,
 
-    monthsProrated: undefined,
-    hrsProrated: undefined,
-    hrsProBonoProrated: undefined,
+    monthsExclude: undefined,
+    hrsExclude: undefined,
+    hrsProBonoexclude: undefined,
     updatedReq: {
         billable: undefined,
         proBono: undefined,
@@ -219,8 +219,8 @@ const output = {
     monthsWithHoursAll: document.getElementById('monthsWithHours'),
     monthsWithHoursFuture: document.getElementById('monthsWithHoursFuture'),
     monthsWithoutHoursPast: document.getElementById('monthsWithoutHours'),
-    monthsProrated: document.getElementById('monthsProrated'),
-    hrsProrated: document.getElementById('hoursProrated'),
+    monthsExclude: document.getElementById('monthsExcluded'),
+    hrsExclude: document.getElementById('hoursExcluded'),
     // hrsAdjustedBillable: document.getElementById('hrsAdjustedBillable'),
 
     hrsBig: document.getElementById('hrs'),
@@ -239,8 +239,8 @@ function updateOutput() {
     output.monthsWithHoursAll.textContent = Math.ceil(calcs.monthsWithHoursAll);
     output.monthsWithHoursFuture.textContent = Math.ceil(calcs.monthsWithHoursFuture);
     output.monthsWithoutHoursPast.textContent = Math.ceil(calcs.monthsWithoutHoursPast);
-    output.monthsProrated.textContent = Math.ceil(calcs.monthsProrated);
-    output.hrsProrated.textContent = Math.ceil(calcs.hrsProrated);
+    output.monthsExclude.textContent = Math.ceil(calcs.monthsExclude);
+    output.hrsExclude.textContent = Math.ceil(calcs.hrsExclude);
     // output.hrsAdjustedBillable = math.ceil(calcs.hrsAdjustedBillable);
 
     output.hrsBig.textContent = Math.ceil(calcs.hrsLeft_PerMonth);
@@ -251,7 +251,7 @@ const input = {
     hoursRequirement: document.getElementById('BillHrReq'),
     hoursAllowableProBono: document.getElementById('PBHrs'),
     billableYearMonthPicker: document.getElementById('billableYearMonth'),
-    proratedYear: document.getElementById('prorated'),
+    excludeMonths: document.getElementById('Excluded'),
     table: document.getElementById('hrsTable'),
     tableRows: document.getElementById('hrsTable').children[1].children,
 }
@@ -260,7 +260,7 @@ function addListeners(){
     input.hoursRequirement.addEventListener('change', handleChange);
     input.hoursAllowableProBono.addEventListener('change', handleChange);
     input.billableYearMonthPicker.addEventListener('change', handleChange);
-    input.proratedYear.addEventListener('change', handleChange);
+    input.excludeMonths.addEventListener('change', handleChange);
     input.table.addEventListener('change', handleChange_table);
 }
 //#endregion
@@ -285,7 +285,7 @@ function updateData(){
     console.log(`Updating Data`);
     data.hoursAllowableProBono = Number(input.hoursAllowableProBono.value);
     data.hoursRequirement = Number(input.hoursRequirement.value);
-    data.prorated = input.proratedYear.checked;
+    data.excludeMonths = input.excludeMonths.checked;
 
     for (let i = 0; i<12; i++){
         let j = circleMonthsReverse(i-data.startMonth);
@@ -293,7 +293,7 @@ function updateData(){
         data.hours.billable[i]=(Number(input.tableRows[j].children[1].children[0].value));
         data.hours.proBono[i]=(Number(input.tableRows[j].children[2].children[0].value));
 
-        data.hours.prorated[i]=(input.tableRows[j].children[3].children[0].checked);        
+        data.hours.excluded[i]=(input.tableRows[j].children[3].children[0].checked);        
     }
 
     data.startMonth = Number(input.billableYearMonthPicker.value);
@@ -317,8 +317,8 @@ function updateTable() {
             input.tableRows[i].children[2].children[0].value = data.hours.proBono[j];
         } else input.tableRows[i].children[2].children[0].value = null;
 
-        if (data.prorated && data.hours.prorated[j]){
-            input.tableRows[i].children[3].children[0].checked = data.hours.prorated[j];
+        if (data.excludeMonths && data.hours.excluded[j]){
+            input.tableRows[i].children[3].children[0].checked = data.hours.excluded[j];
         } else input.tableRows[i].children[3].children[0].checked = false;
     }
 }
@@ -326,7 +326,7 @@ function updateTable() {
 function resetTableHours(){
     data.hours.billable = [];
     data.hours.proBono = [];
-    data.hours.prorated = [];
+    data.hours.excluded = [];
 
     updateTable();
     updateCalcs();
@@ -352,7 +352,7 @@ function updateCalcs(){
                 isPast: undefined, //to be updated by setMonthsRemaining()
                 hrsBillable: Number(tableRows[i].children[1].children[0].value),
                 hrsProBono: Number(tableRows[i].children[2].children[0].value),
-                isProrated: Boolean(tableRows[i].children[3].children[0].checked),
+                isexclude: Boolean(tableRows[i].children[3].children[0].checked),
             }
             t.push(row);
         }
@@ -391,11 +391,11 @@ function updateCalcs(){
             }
         })();
         
-        let setMonthsProrated = (function(){
-            calcs.monthsProrated = 0;
+        let setMonthsexclude = (function(){
+            calcs.monthsExclude = 0;
             for (i=0; i<tbl.length;i++){
-                if(tbl[i].isProrated){
-                    calcs.monthsProrated++;
+                if(tbl[i].isexclude){
+                    calcs.monthsExclude++;
                 }
             }
         })();
@@ -424,7 +424,7 @@ function updateCalcs(){
             calcs.hrsCountedBillable = 0;
             calcs.hrsCountedProBono = 0;
             for (i=0; i<tbl.length; i++){
-                if(tbl[i].isProrated == false && tbl[i].isPast == true){
+                if(tbl[i].isexclude == false && tbl[i].isPast == true){
                     calcs.hrsCountedBillable += tbl[i].hrsBillable;
                     calcs.hrsCountedProBono += tbl[i].hrsProBono;
                 }
@@ -434,15 +434,15 @@ function updateCalcs(){
     }
 
     { //funcs that DO rely on other calcs
-        let setHrsProrated= (function(){
-            // hrs req / 12 * proratedMonths
-            calcs.hrsProrated = (data.hoursRequirement / 12)*calcs.monthsProrated;
-            calcs.hrsProBonoProrated = (data.hoursAllowableProBono / 12)*calcs.monthsProrated;
+        let setHrsexclude= (function(){
+            // hrs req / 12 * excludeMonths
+            calcs.hrsExclude = (data.hoursRequirement / 12)*calcs.monthsExclude;
+            calcs.hrsProBonoexclude = (data.hoursAllowableProBono / 12)*calcs.monthsExclude;
         })();
 
         let setHrsLeft= (function(){
-            calcs.updatedReq.billable = data.hoursRequirement - calcs.hrsProrated;
-            calcs.updatedReq.proBono = data.hoursAllowableProBono - calcs.hrsProBonoProrated
+            calcs.updatedReq.billable = data.hoursRequirement - calcs.hrsExclude;
+            calcs.updatedReq.proBono = data.hoursAllowableProBono - calcs.hrsProBonoexclude
 
             calcs.hrsToGoBillable = calcs.updatedReq.billable - calcs.hrsCountedBillable - calcs.hrsCountedProBono;
             calcs.hrsLeftProBono = calcs.updatedReq.proBono - calcs.hrsCountedProBono;            
@@ -455,7 +455,7 @@ function updateCalcs(){
             let months = calcs.monthsRemaining;
 
             for (i = 0; i<tbl.length; i++){
-                if(tbl[i].isPast == false && tbl[i].hrsBillable > 0 && !tbl[i].isProrated){
+                if(tbl[i].isPast == false && tbl[i].hrsBillable > 0 && !tbl[i].isexclude){
                     hours -= tbl[i].hrsBillable;
                     months--;
                 }
@@ -527,7 +527,7 @@ function Load(){
         input.hoursRequirement.value = data.hoursRequirement;
         input.hoursAllowableProBono.value = data.hoursAllowableProBono;
         input.billableYearMonthPicker.value = data.startMonth;
-        input.proratedYear.checked = data.prorated;
+        input.excludeMonths.checked = data.excludeMonths;
 
         console.log(data);
         // updateData();
@@ -545,14 +545,11 @@ function Load(){
         updateTable();
     }
 
-    showProrated(data.prorated);
+    showExcluded(data.excludeMonths);
 
     // changeVisibility('outputs-data', 'outputs-visibility');
 }
-
-(function onLoad(){
-    Load();
-})()
+Load();
 
 function setTestHours(option){
     switch (option) {
@@ -562,8 +559,8 @@ function setTestHours(option){
             data.hoursAllowableProBono = 100;
             data.hours.billable = [0,0,0,0,0,0,0,0,0,0,0,0];
             data.hours.proBono = [0,0,0,0,0,0,0,0,0,0,0,0];
-            data.prorated = true;
-            data.hours.prorated =[false,false,false,false,false,false,false,false,false,false,false,false];
+            data.excludeMonths = true;
+            data.hours.excluded =[false,false,false,false,false,false,false,false,false,false,false,false];
 
             localStorage.setItem("hrsCalculator", JSON.stringify(data));
             Load();
@@ -574,8 +571,8 @@ function setTestHours(option){
             data.hoursAllowableProBono = 120;
             data.hours.billable = [100,100,100,100,100,100,100,100,100,100,100,100];
             data.hours.proBono = [10,10,10,10,10,10,10,10,10,10,10,10];
-            data.prorated = true;
-            data.hours.prorated =[false,false,false,false,false,false,false,false,false,false,false,false];
+            data.excludeMonths = true;
+            data.hours.excluded =[false,false,false,false,false,false,false,false,false,false,false,false];
 
             localStorage.setItem("hrsCalculator", JSON.stringify(data));
             Load();
@@ -586,8 +583,8 @@ function setTestHours(option){
             data.hoursAllowableProBono = 200;
             data.hours.billable = [100,200,100,200,100,200,100,200,100,200,100,200];
             data.hours.proBono = [20,10,20,10,20,10,20,10,20,10,20,10];
-            data.prorated = true;
-            data.hours.prorated =[false,false,false,false,false,false,false,false,false,false,false,false];
+            data.excludeMonths = true;
+            data.hours.excluded =[false,false,false,false,false,false,false,false,false,false,false,false];
             
             localStorage.setItem("hrsCalculator", JSON.stringify(data));
             Load();
@@ -598,15 +595,15 @@ function setTestHours(option){
             data.hoursAllowableProBono = 100;
             data.hours.billable = [194, 190, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             data.hours.proBono = [0,0,0,0,0,0,0,0,0,0,0,0];
-            data.prorated = false; 
-            data.hours.prorated = [true, true, false, false, false, false, false, false, false, false, false, false];
+            data.excludeMonths = true; 
+            data.hours.excluded = [true, true, false, false, false, false, false, false, false, false, false, false];
 
             localStorage.setItem("hrsCalculator", JSON.stringify(data));
             Load();
             break;
         
         default:
-            console.log("Options: 0, 1, 2");
+            console.log("Options: 0, 1, 2, 'f1'");
     }
 }
 //#endregion

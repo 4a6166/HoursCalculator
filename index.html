@@ -97,12 +97,12 @@
                         </div>
                         <br>
                         <div>
-                            <div>Prorated Months:</div>
-                            <div id="monthsProrated" class="bold">X</div>
+                            <div>Excluded Months:</div>
+                            <div id="monthsExcluded" class="bold">X</div>
                         </div>
                         <div>
-                            <div>Prorated Hours:</div>
-                            <div id="hoursProrated" class="bold">X</div>
+                            <div>Excluded Hours:</div>
+                            <div id="hoursExcluded" class="bold">X</div>
                         </div>
 
                     </div>
@@ -138,10 +138,10 @@
                         </select>
                     </div>
                     <div class="checkbox">
-                        <div>Prorated Year</div>
+                        <div>Exclude Months<br><span class="small-small-text">Decriment inputs for Hours Per Month</span></div>
                         <div class="checkbox-wrapper">
-                            <label for="prorated" class="switch">
-                                <input type="checkbox" onclick="showProrated(!data.prorated)" id="prorated" class="toggle">
+                            <label for="Excluded" class="switch">
+                                <input type="checkbox" onclick="showExcluded(!data.excludeMonths)" id="Excluded" class="toggle">
                                 <span class="slider round"></span>
                             </label>
                         </div>
@@ -156,7 +156,8 @@
                                 <th class="table-months">Month</th>
                                 <th class="th-number">Hours<br>Billable</th>
                                 <th class="th-number">Other<br><span class="small-small-text">(Pro Bono)</span></th>
-                                <th class="th-checkbox">Pro-<br>rated</th>                        </tr>
+                                <th class="th-checkbox">Exclude?</th>
+                            </tr>
                         </thead>
                         <tbody>
                         </tbody>
