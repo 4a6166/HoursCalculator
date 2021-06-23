@@ -473,6 +473,8 @@ function updateCalcs(){
     let setDonutHours= (function(){
     
         data_donut_hours = [];
+        let hrsFutureProBono = 0;
+
         for (i=0; i<tbl.length; i++){
             if(tbl[i].isExcluded){
                 data_donut_hours.push(0);
@@ -480,10 +482,15 @@ function updateCalcs(){
                 data_donut_hours.push(Math.ceil(tbl[i].hrsBillable));
             } else {
                 data_donut_hours.push(Math.ceil(calcs.hrsLeft_PerMonth));
+                hrsFutureProBono += tbl[i].hrsProBono;
             }
         }
-    
-        data_donut_probono = [calcs.hrsCountedProBono, calcs.hrsLeftProBono];
+        
+        
+        let hrsLeftProBono = calcs.hrsLeftProBono - hrsFutureProBono >= 0 ? calcs.hrsLeftProBono - hrsFutureProBono 
+                            : 0;
+
+        data_donut_probono = [calcs.hrsCountedProBono, hrsFutureProBono, hrsLeftProBono];
     
         let updateDonut= (function(){ 
             for (let i= 0; i<12; i++){

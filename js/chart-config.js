@@ -8,6 +8,7 @@ const CHART_COLORS = {
     prelimine_Orange: 'rgb(221, 109, 79)',
     prelimine_Orange_Light: 'rgba(221, 109, 79, 0.3)',
     prelimine_Blue: 'rgb(77, 130, 184)',
+    prelimine_Blue_Light: 'rgba(77, 130, 184, .3)',
     prelimine_Gray: 'rgb(128, 128, 128)',
 };
 
@@ -17,13 +18,12 @@ const DATA_COUNT_donut = 5;
 const NUMBER_CFG_donut = {count: DATA_COUNT_donut, min: 0, max: 100};
 
 let data_donut_hours = [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2];
-let data_donut_probono = [0, 1];
+let data_donut_probono = [0, 1, 2];
 
 const data_donut = {
     labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
     datasets: [
-        {
-            label: 'Hours',
+        {label: 'Hours',
             data: data_donut_hours,
             labels: [
                 "January",
@@ -57,15 +57,16 @@ const data_donut = {
             hoverOffset: 4,
             weight: 2.1,
         },
-        {
-            label: 'Pro Bono',
+        {label: 'Pro Bono',
             data: data_donut_probono,
             labels: [
                 'Pro Bono Hours Completed',
+                'Pro Bono Hours Projected',
                 'Pro Bono Hours Remaining'
             ],
             backgroundColor: [
                 CHART_COLORS.prelimine_Blue,
+                CHART_COLORS.prelimine_Blue_Light,                
                 CHART_COLORS.prelimine_Gray,
             ],
             hoverOffset: -4,
