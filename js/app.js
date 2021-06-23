@@ -354,11 +354,12 @@ function updateCalcs(){
             ]
             array.push(rowArray);
         }
-        // console.log(array);
+        console.log(array);
         return array;
     }
     let tableArray = getTableArray();
-    let currentMonthShifted = currentMonth > startMonth ? currentMonth - startMonth : currentMonth + 12 - startMonth;
+    let currentMonthShifted = currentMonth >= startMonth ? currentMonth - startMonth : currentMonth + 12 - startMonth;
+    console.log(currentMonthShifted);
 
     { // funcs that do NOT rely on other calcs
         function setMonthsRemaining(){
@@ -366,7 +367,7 @@ function updateCalcs(){
             calcs.futureMonths = [];
             calcs.pastMonths = [];
             for (i=0; i<tableArray.length; i++){
-                if (i > currentMonthShifted){
+                if (i >= currentMonthShifted){
                     result++;
                     calcs.futureMonths.push(tableArray[i][3]);
                     tableArray[i].push("future");
@@ -375,9 +376,9 @@ function updateCalcs(){
                     tableArray[i].push("past");
                 }
             }
-            return result;
+            calcs.monthsRemaining = result;
         }
-        calcs.monthsRemaining = setMonthsRemaining();
+        setMonthsRemaining();
 
         function setLoggedHrs(){
             calcs.hrsLoggedBillable = 0;
@@ -433,7 +434,6 @@ function updateCalcs(){
         }
         setHrsCounted();
 
-
     }
 
     { //funcs that DO rely on other calcs
@@ -466,6 +466,8 @@ function updateCalcs(){
                 }
             }
 
+            console.log("hrs:" + hours);
+            console.log("months: "+months);
             calcs.hrsLeft_PerMonth = hours / months;
 
         }
