@@ -363,7 +363,7 @@ function updateCalcs(){
     let currentMonthShifted = currentMonth >= startMonth ? currentMonth - startMonth : currentMonth + 12 - startMonth;
 
     { // funcs that do NOT rely on other calcs
-        function setMonthsRemaining(){
+        let setMonthsRemaining = (function(){
             result =0;
             calcs.monthsFuture = [];
             calcs.monthsPast = [];
@@ -378,10 +378,9 @@ function updateCalcs(){
                 }
             }
             calcs.monthsRemaining = result;
-        }
-        setMonthsRemaining();
+        })();
 
-        function setLoggedHrs(){
+        let setLoggedHrs = (function(){
             calcs.hrsLoggedBillable = 0;
             calcs.hrsLoggedProBono = 0;
 
@@ -389,20 +388,18 @@ function updateCalcs(){
                 calcs.hrsLoggedBillable += tbl[i].hrsBillable;
                 calcs.hrsLoggedProBono += tbl[i].hrsProBono;
             }
-        }
-        setLoggedHrs();
+        })();
         
-        function setMonthsProrated(){
+        let setMonthsProrated = (function(){
             calcs.monthsProrated = 0;
             for (i=0; i<tbl.length;i++){
                 if(tbl[i].isProrated){
                     calcs.monthsProrated++;
                 }
             }
-        }
-        setMonthsProrated();
+        })();
 
-        function setMonths(){
+        let setMonths = (function(){
             calcs.monthsWithHoursAll = 0;
             calcs.monthsWithHoursFuture = 0;
             calcs.monthsWithoutHoursPast = 0;
@@ -420,10 +417,9 @@ function updateCalcs(){
                     }
                 }
             }
-        }
-        setMonths();
+        })();
 
-        function setHrsCounted(){
+        let setHrsCounted= (function(){
             calcs.hrsCountedBillable = 0;
             calcs.hrsCountedProBono = 0;
             for (i=0; i<tbl.length; i++){
@@ -432,29 +428,26 @@ function updateCalcs(){
                     calcs.hrsCountedProBono += tbl[i].hrsProBono;
                 }
             }
-        }
-        setHrsCounted();
+        })();
 
     }
 
     { //funcs that DO rely on other calcs
-        function setHrsProrated(){
+        let setHrsProrated= (function(){
             // hrs req / 12 * proratedMonths
             calcs.hrsProrated = (data.hoursRequirement / 12)*calcs.monthsProrated;
             calcs.hrsProBonoProrated = (data.hoursAllowableProBono / 12)*calcs.monthsProrated;
-        }
-        setHrsProrated();
+        })();
 
-        function setHrsLeft(){
+        let setHrsLeft= (function(){
             calcs.updatedReq.billable = data.hoursRequirement - calcs.hrsProrated;
             calcs.updatedReq.proBono = data.hoursAllowableProBono - calcs.hrsProBonoProrated
 
             calcs.hrsToGoBillable = calcs.updatedReq.billable - calcs.hrsCountedBillable - calcs.hrsCountedProBono;
             calcs.hrsLeftProBono = calcs.updatedReq.proBono - calcs.hrsCountedProBono;            
-        }
-        setHrsLeft();
+        })();
 
-        function setHrsLeft_PerMonth(){
+        let setHrsLeft_PerMonth= (function(){
             // calcs.hrsLeft_PerMonth = (calcs.hrsToGoBillable - (calcs.hrsLoggedBillable - hrsCountedBillable) )/ (calcs.monthsRemaining - calcs.monthsWithHoursFuture);
 
             let hours = calcs.hrsToGoBillable;
@@ -469,12 +462,11 @@ function updateCalcs(){
 
             calcs.hrsLeft_PerMonth = hours / months;
 
-        }
-        setHrsLeft_PerMonth();
+        })();
     }
 
 
-    function setDonutHours(){
+    let setDonutHours= (function(){
     
         data_donut_hours = [];
         for (i=0; i<tbl.length; i++){
@@ -487,7 +479,7 @@ function updateCalcs(){
     
         data_donut_probono = [calcs.hrsCountedProBono, calcs.hrsLeftProBono];
     
-        (function updateDonut(){ 
+        let updateDonut= (function(){ 
             for (let i= 0; i<12; i++){
                 let num = Number(data.startMonth) +i;
                 if (num > 12) {
@@ -514,8 +506,7 @@ function updateCalcs(){
             donut_full.data.datasets[1].data = data_donut_probono;
             donut_full.update();
         })()       
-    }
-    setDonutHours();
+    })();
 
     console.log(calcs);
 }
