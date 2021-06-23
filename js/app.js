@@ -564,6 +564,7 @@ function setTestHours(option){
             data.hoursAllowableProBono = 100;
             data.hours.billable = [0,0,0,0,0,0,0,0,0,0,0,0];
             data.hours.proBono = [0,0,0,0,0,0,0,0,0,0,0,0];
+            data.prorated = true;
             data.hours.prorated =[false,false,false,false,false,false,false,false,false,false,false,false];
 
             localStorage.setItem("hrsCalculator", JSON.stringify(data));
@@ -575,6 +576,7 @@ function setTestHours(option){
             data.hoursAllowableProBono = 120;
             data.hours.billable = [100,100,100,100,100,100,100,100,100,100,100,100];
             data.hours.proBono = [10,10,10,10,10,10,10,10,10,10,10,10];
+            data.prorated = true;
             data.hours.prorated =[false,false,false,false,false,false,false,false,false,false,false,false];
 
             localStorage.setItem("hrsCalculator", JSON.stringify(data));
@@ -586,6 +588,7 @@ function setTestHours(option){
             data.hoursAllowableProBono = 200;
             data.hours.billable = [100,200,100,200,100,200,100,200,100,200,100,200];
             data.hours.proBono = [20,10,20,10,20,10,20,10,20,10,20,10];
+            data.prorated = true;
             data.hours.prorated =[false,false,false,false,false,false,false,false,false,false,false,false];
             
             localStorage.setItem("hrsCalculator", JSON.stringify(data));
