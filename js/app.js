@@ -201,10 +201,10 @@ let calcs = {
         proBono: undefined,
     },
     
-    pastMonths: [],
-    futureMonths: [],
+    monthsPast: [],
+    monthsFuture: [],
 
-    hrsAdjustedBillable: undefined,
+    // hrsAdjustedBillable: undefined,
 };
 
 const output = {
@@ -267,7 +267,6 @@ function addListeners(){
 
 //#region hanlders
 function handleChange(e){
-    console.log("Setting Local Storage");
     updateData();
     updateTable();
     updateCalcs();
@@ -275,7 +274,6 @@ function handleChange(e){
 }
 
 function handleChange_table(e){
-    console.log("Setting Local Storage");
     updateData();
     // updateTable();
     updateCalcs();
@@ -300,6 +298,7 @@ function updateData(){
 
     data.startMonth = Number(input.billableYearMonthPicker.value);
 
+    console.log("Setting Local Storage");
     localStorage.setItem("hrsCalculator", JSON.stringify(data));
 }
 
@@ -341,7 +340,7 @@ function updateCalcs(){
     let tableRows = input.tableRows;
     let startMonth = data.startMonth;
 
-    function getTableArray(){
+    let tableArray = (function getTableArray(){
         let array =[];
 
         for (i =0; i<tableRows.length; i++){
@@ -356,23 +355,42 @@ function updateCalcs(){
         }
         console.log(array);
         return array;
-    }
-    let tableArray = getTableArray();
+    })()
+
+    let tbl= (function(){
+        let t =[];
+
+        for (i =0; i<tableRows.length; i++){
+            let row = {
+                
+                month: tableRows[i].children[0].textContent,
+                monthId: switchMonthStringToNum(tableRows[i].children[0].textContent),
+                monthIdShifted: undefined,
+                isPast: undefined, //to be updated by setMonthsRemaining()
+                hrsBillable: Number(tableRows[i].children[1].children[0].value),
+                hrsProBono: Number(tableRows[i].children[2].children[0].value),
+                isProrated: Boolean(tableRows[i].children[3].children[0].checked),
+            }
+            t.push(row);
+        }
+        console.log(t);
+        return t;
+    })()
+
     let currentMonthShifted = currentMonth >= startMonth ? currentMonth - startMonth : currentMonth + 12 - startMonth;
-    console.log(currentMonthShifted);
 
     { // funcs that do NOT rely on other calcs
         function setMonthsRemaining(){
             result =0;
-            calcs.futureMonths = [];
-            calcs.pastMonths = [];
+            calcs.monthsFuture = [];
+            calcs.monthsPast = [];
             for (i=0; i<tableArray.length; i++){
                 if (i >= currentMonthShifted){
                     result++;
-                    calcs.futureMonths.push(tableArray[i][3]);
+                    calcs.monthsFuture.push(tableArray[i][3]);
                     tableArray[i].push("future");
                 } else {
-                    calcs.pastMonths.push(tableArray[i][3]);
+                    calcs.monthsPast.push(tableArray[i][3]);
                     tableArray[i].push("past");
                 }
             }
@@ -466,8 +484,6 @@ function updateCalcs(){
                 }
             }
 
-            console.log("hrs:" + hours);
-            console.log("months: "+months);
             calcs.hrsLeft_PerMonth = hours / months;
 
         }
@@ -517,6 +533,8 @@ function updateCalcs(){
         })()       
     }
     setDonutHours();
+
+    console.log(calcs);
 }
 
 //#region Load and Test
