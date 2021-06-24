@@ -395,12 +395,17 @@ let calcs = {
     
             let setHrsLeft_PerMonth= (function(){
                 let hours = calcs.hrsToGoBillable;
+
                 let months = calcs.monthsRemaining;
     
                 for (i = 0; i<table.data.length; i++){
                     if(table.data[i].isPast == false && table.data[i].hrsBillable > 0 && !table.data[i].isExcluded){
                         hours -= table.data[i].hrsBillable;
                         months--;
+                    }
+
+                    if(!table.data[i].isPast && !table.data[i].isExcluded){
+                        hours -= table.data[i].hrsProBono;
                     }
                 }
     
