@@ -156,29 +156,46 @@ let table = {
         for (let i = 0; i<12; i++){
             input.table.children[1].innerHTML += rowTemplate;
         }
-
-        table.setData();
     },
     update: function () {
         console.log(`Updating Table`);
+        let t = [];
+
         for (let i = 0; i < 12; i++) {
             let j = circleMonths(model.data.startMonth+i);
+            let row ={
+                monthId: j,
+                monthIdShifted: undefined,
+                isPast: undefined,
+                hrsBillable: model.data.hours.billable[j],
+                hrsProBono: model.data.hours.proBono[j],
+                isExcluded: undefined,
+            };
+
             
-            input.tableRows[i].children[0].textContent = switchMonthNumToString(j);
+            input.tableRows[i].children[0].textContent = switchMonthNumToString(row.monthId);
     
-            if (model.data.hours.billable[j]){
-                input.tableRows[i].children[1].children[0].value = model.data.hours.billable[j];
-            } else input.tableRows[i].children[1].children[0].value = null;
+            if (model.data.hours.billable[row.monthId]){
+                row.hrsBillable = model.data.hours.billable[row.monthId];
+            } else row.hrsBillable = null;
     
-            if (model.data.hours.proBono[j]){
-                input.tableRows[i].children[2].children[0].value = model.data.hours.proBono[j];
-            } else input.tableRows[i].children[2].children[0].value = null;
+            if (model.data.hours.proBono[row.monthId]){
+                row.hrsProBono = model.data.hours.proBono[row.monthId];
+            } else row.hrsProBono = null;
     
-            if (model.data.excludeMonths && model.data.hours.excluded[j]){
-                input.tableRows[i].children[3].children[0].checked = model.data.hours.excluded[j];
-            } else input.tableRows[i].children[3].children[0].checked = false;
+            if (model.data.excludeMonths && model.data.hours.excluded[row.monthId]){
+                row.isExcluded = model.data.hours.excluded[row.monthId];
+            } else row.isExcluded = false;
+
+
+            t.push(row);
+
+            input.tableRows[i].children[1].children[0].value = row.hrsBillable;
+            input.tableRows[i].children[2].children[0].value = row.hrsProBono;
+            input.tableRows[i].children[3].children[0].checked = row.isExcluded;
         }
-        table.setData();
+        table.data = t;
+        // table.setData();
     },
     reset: function (){
         model.data.hours.billable = [];
@@ -352,8 +369,10 @@ let calcs = {
                 calcs.hrsCountedProBono = 0;
                 for (i=0; i<table.data.length; i++){
                     if(table.data[i].isExcluded == false && table.data[i].isPast == true){
-                        calcs.hrsCountedBillable += table.data[i].hrsBillable;
-                        calcs.hrsCountedProBono += table.data[i].hrsProBono;
+                        // calcs.hrsCountedBillable += table.data[i].hrsBillable
+                        calcs.hrsCountedBillable = calcs.hrsCountedBillable + table.data[i].hrsBillable <= model.data.hoursRequirement? calcs.hrsCountedBillable += table.data[i].hrsBillable : model.data.hoursRequirement;
+                        // calcs.hrsCountedProBono += table.data[i].hrsProBono;
+                        calcs.hrsCountedProBono = calcs.hrsCountedProBono + table.data[i].hrsProBono <= model.data.hoursAllowableProBono ? calcs.hrsCountedProBono += table.data[i].hrsProBono : model.data.hoursAllowableProBono;
                     }
                 }
             })();
@@ -361,7 +380,7 @@ let calcs = {
         }
     
         { //funcs that DO rely on other calcs
-            let setHrsexclude= (function(){
+            let setHrsExclude= (function(){
                 calcs.hrsExclude = (model.data.hoursRequirement / 12)*calcs.monthsExclude;
                 calcs.hrsProBonoexclude = (model.data.hoursAllowableProBono / 12)*calcs.monthsExclude;
             })();
@@ -392,8 +411,7 @@ let calcs = {
     
             })();
         }
-    
-    
+
         let setDonutHours= (function(){
         
             data_donut_hours = [];
@@ -422,14 +440,10 @@ let calcs = {
         
             let updateDonut= (function(){ 
                 for (let i= 0; i<12; i++){
-                    let num = Number(model.data.startMonth) +i;
-                    if (num > 12) {
-                        num -= 12;
-                    }
             
-                    donut.data.datasets[0].labels[i] = switchMonthNumToString(table.data[i].monthId);
+                    donut.data.datasets[0].labels[i] = switchMonthNumToString(table.data[i].month);
     
-                    if(i>=(12-calcs.monthsRemaining)){
+                    if(!table.data[i].isPast){
                         if (table.data[i].hrsBillable >0){
                             donut.data.datasets[0].backgroundColor[i] = CHART_COLORS.prelimine_Orange_Light;
                         } else {
@@ -494,8 +508,6 @@ const output = {
     
 }
 
-
-
 const input = {
     hoursRequirement: document.getElementById('BillHrReq'),
     hoursAllowableProBono: document.getElementById('PBHrs'),
@@ -519,11 +531,13 @@ const input = {
         calcs.update();
         output.update();
     },
-    
+    update: function(){
+        input.hoursRequirement.value = model.data.hoursRequirement;
+        input.hoursAllowableProBono.value = model.data.hoursAllowableProBono;
+        input.billableYearMonthPicker.value = model.data.startMonth;
+        input.excludeMonths.checked = model.data.excludeMonths;
+    }
 }
-
-
-
 
 let Load = (function(){
     table.setUp();
@@ -533,13 +547,9 @@ let Load = (function(){
     if(localStorage.getItem("hrsCalculator")){
         model.data = JSON.parse(localStorage.getItem("hrsCalculator"));
         
-        input.hoursRequirement.value = model.data.hoursRequirement;
-        input.hoursAllowableProBono.value = model.data.hoursAllowableProBono;
-        input.billableYearMonthPicker.value = model.data.startMonth;
-        input.excludeMonths.checked = model.data.excludeMonths;
-
+        input.update();
         console.log(model.data);
-        // updateData();
+        // model.update();
         table.update();
         calcs.update();
         output.update();
@@ -560,13 +570,6 @@ let Load = (function(){
 })();
 
 let test = {
-    load: function (){
-        // updateData();
-        table.update();
-        calcs.update();
-        output.update();
-    },
-
     setData: function (option){
         switch (option) {
             case 0:
@@ -605,12 +608,37 @@ let test = {
                 model.data.excludeMonths = true; 
                 model.data.hours.excluded = [true, true, false, false, false, false, false, false, false, false, false, false];
                 break;
-            
+            case "f2 negative pro bono counted":
+                model.data.startMonth = 7;
+                model.data.hoursRequirement = 2100;
+                model.data.hoursAllowableProBono = 100;
+                model.data.excludeMonths = false;
+                model.data.hours.billable= [145, 156, 180, 156, 170, 0, 0, 150.3, 140, 144, 200, 120]
+                model.data.hours.proBono= [10, 17, 18, 20, 17, 0, 0, 3.3, 22, 32, 0, 60];
+                model.data.hours.excluded = [false, false, false, false, false, false, false, false, false, false, false, false];
+                break;
+            case "f3 pro bono hours in future toward avg":
+                model.data.startMonth = 7;
+                model.data.hoursRequirement = 1900;
+                model.data.hoursAllowableProBono = 100;
+                model.data.excludeMonths = false;
+                model.data.hours.billable= [0,0,0,0,180,156,0,0,0,0,0,0];
+                model.data.hours.proBono= [0,0,0,0,75,50,0,0,0,0,0,0];
+                model.data.hours.excluded = [false, false, false, false, false, false, false, false, false, false, false, false];
+                break;
+
             default:
-                return "Input Options: 0, 1, 2, 'f1'";
+                return "Input Options: 0, 1, 2, 'f1', 'f2 negative pro bono counted', 'f3 pro bono hours in future toward avg'";
         }
         
-        test.load();
+        let loadData = (function(){
+            // model.update();
+            input.update();
+            table.update();
+            calcs.update();
+            output.update();
+        })();
+
         return "Test: localStorage not set";
     }
 };
