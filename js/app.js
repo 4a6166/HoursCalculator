@@ -503,33 +503,31 @@ const input = {
     excludeMonths: document.getElementById('Excluded'),
     table: document.getElementById('hrsTable'),
     tableRows: document.getElementById('hrsTable').children[1].children,
+
+    addListeners: function (){
+        input.hoursRequirement.addEventListener('change', input.handleChange);
+        input.hoursAllowableProBono.addEventListener('change', input.handleChange);
+        input.billableYearMonthPicker.addEventListener('change', input.handleChange);
+        input.excludeMonths.addEventListener('change', input.handleChange);
+        input.table.addEventListener('change', input.handleChange);
+    },
+    
+    handleChange: function(e){
+        console.log("a");
+        model.update();
+        table.update();
+        calcs.update();
+        output.update();
+    },
+    
 }
 
-function addListeners(){
-    input.hoursRequirement.addEventListener('change', handleChange);
-    input.hoursAllowableProBono.addEventListener('change', handleChange);
-    input.billableYearMonthPicker.addEventListener('change', handleChange);
-    input.excludeMonths.addEventListener('change', handleChange);
-    input.table.addEventListener('change', handleChange_table);
-}
 
-function handleChange(e){
-    model.update();
-    table.update();
-    calcs.update();
-    output.update();
-}
 
-function handleChange_table(e){
-    model.update();
-    // updateTable();
-    calcs.update();
-    output.update();
-}
 
 let Load = (function(){
     table.setUp();
-    addListeners();
+    input.addListeners();
 
     console.log("Getting from Local Storage")
     if(localStorage.getItem("hrsCalculator")){
