@@ -26,7 +26,6 @@ function showExcluded(exclude){
     }
 }
 
-//#region Utilities
 function inputTrim(input, max){
     if (input.value === "" || input.value ===  "0") {
         input.value = null;
@@ -37,8 +36,6 @@ function inputTrim(input, max){
         alert(`Please enter a value between 0 and ${max}`);
         input.value = null;
     }
-
-    // input.value = Math.abs(input.value) > 0 ? Math.abs(input.value) : null;
 
     input.value = input.value < Number(max) ? Math.round(input.value * 10)/10 : null;
 
@@ -134,11 +131,10 @@ function switchMonthStringToNum(string){
     }
 }
 
-//#endregion
-let table = {
-    data:{
+let currentMonth = new Date().getMonth();
 
-    },
+let table = {
+    data: [],
     setUp: function (){
 
         let rowTemplate = `
@@ -160,77 +156,98 @@ let table = {
         for (let i = 0; i<12; i++){
             input.table.children[1].innerHTML += rowTemplate;
         }
+
+        table.setData();
     },
     update: function () {
         console.log(`Updating Table`);
         for (let i = 0; i < 12; i++) {
-            let j = circleMonths(data.startMonth+i);
+            let j = circleMonths(model.data.startMonth+i);
             
             input.tableRows[i].children[0].textContent = switchMonthNumToString(j);
     
-            if (data.hours.billable[j]){
-                input.tableRows[i].children[1].children[0].value = data.hours.billable[j];
+            if (model.data.hours.billable[j]){
+                input.tableRows[i].children[1].children[0].value = model.data.hours.billable[j];
             } else input.tableRows[i].children[1].children[0].value = null;
     
-            if (data.hours.proBono[j]){
-                input.tableRows[i].children[2].children[0].value = data.hours.proBono[j];
+            if (model.data.hours.proBono[j]){
+                input.tableRows[i].children[2].children[0].value = model.data.hours.proBono[j];
             } else input.tableRows[i].children[2].children[0].value = null;
     
-            if (data.excludeMonths && data.hours.excluded[j]){
-                input.tableRows[i].children[3].children[0].checked = data.hours.excluded[j];
+            if (model.data.excludeMonths && model.data.hours.excluded[j]){
+                input.tableRows[i].children[3].children[0].checked = model.data.hours.excluded[j];
             } else input.tableRows[i].children[3].children[0].checked = false;
         }
+        table.setData();
     },
     reset: function (){
-        data.hours.billable = [];
-        data.hours.proBono = [];
-        data.hours.excluded = [];
+        model.data.hours.billable = [];
+        model.data.hours.proBono = [];
+        model.data.hours.excluded = [];
     
         table.update();
         calcs.update();
         output.update();
-        localStorage.setItem("hrsCalculator", JSON.stringify(data));
-    }
+        localStorage.setItem("hrsCalculator", JSON.stringify(model.data));
+    },
+    setData: function(){
+        let tableRows = input.tableRows;
+        let t =[];
+
+        for (i =0; i<tableRows.length; i++){
+            let row = {
+                
+                month: tableRows[i].children[0].textContent,
+                monthId: switchMonthStringToNum(tableRows[i].children[0].textContent),
+                monthIdShifted: undefined,
+                isPast: undefined, //to be updated by setMonthsRemaining()
+                hrsBillable: Number(tableRows[i].children[1].children[0].value),
+                hrsProBono: Number(tableRows[i].children[2].children[0].value),
+                isExcluded: Boolean(tableRows[i].children[3].children[0].checked),
+            }
+            t.push(row);
+        }
+        table.data = t;
+        return t;
+    },
     
 }
 
+let model = {
+    data: {
+        hoursRequirement: undefined,
+        hoursAllowableProBono: undefined,
+        startMonth: undefined,
+        excludeMonths: false,
 
-//#region Vars
-let currentMonth = new Date().getMonth();
-
-let data = {
-    hoursRequirement: undefined,
-    hoursAllowableProBono: undefined,
-    startMonth: undefined,
-    excludeMonths: false,
-
-    hours: {
-        billable: [],
-        proBono: [],
-        excluded: [],
-        monthId: [0,1,2,3,4,5,6,7,8,9,10,11]
+        hours: {
+            billable: [],
+            proBono: [],
+            excluded: [],
+            monthId: [0,1,2,3,4,5,6,7,8,9,10,11]
+        },
     },
 
     update: function (){
         console.log(`Updating Data`);
-        data.hoursAllowableProBono = Number(input.hoursAllowableProBono.value);
-        data.hoursRequirement = Number(input.hoursRequirement.value);
-        data.excludeMonths = input.excludeMonths.checked;
+        model.data.hoursAllowableProBono = Number(input.hoursAllowableProBono.value);
+        model.data.hoursRequirement = Number(input.hoursRequirement.value);
+        model.data.excludeMonths = input.excludeMonths.checked;
     
         for (let i = 0; i<12; i++){
-            let j = circleMonthsReverse(i-data.startMonth);
+            let j = circleMonthsReverse(i-model.data.startMonth);
     
-            data.hours.billable[i]=(Number(input.tableRows[j].children[1].children[0].value));
-            data.hours.proBono[i]=(Number(input.tableRows[j].children[2].children[0].value));
+            model.data.hours.billable[i]=(Number(input.tableRows[j].children[1].children[0].value));
+            model.data.hours.proBono[i]=(Number(input.tableRows[j].children[2].children[0].value));
     
-            data.hours.excluded[i]=(input.tableRows[j].children[3].children[0].checked);        
+            model.data.hours.excluded[i]=(input.tableRows[j].children[3].children[0].checked);        
         }
     
-        data.startMonth = Number(input.billableYearMonthPicker.value);
+        model.data.startMonth = Number(input.billableYearMonthPicker.value);
     
-        console.log(data);
+        console.log(model.data);
         console.log("Setting Local Storage");
-        localStorage.setItem("hrsCalculator", JSON.stringify(data));
+        localStorage.setItem("hrsCalculator", JSON.stringify(model.data));
     }
     
 };
@@ -267,26 +284,7 @@ let calcs = {
     update: function (){
         console.log(`Updating Calcs`);
         let tableRows = input.tableRows;
-        let startMonth = data.startMonth;
-    
-        let tbl= (function(){
-            let t =[];
-    
-            for (i =0; i<tableRows.length; i++){
-                let row = {
-                    
-                    month: tableRows[i].children[0].textContent,
-                    monthId: switchMonthStringToNum(tableRows[i].children[0].textContent),
-                    monthIdShifted: undefined,
-                    isPast: undefined, //to be updated by setMonthsRemaining()
-                    hrsBillable: Number(tableRows[i].children[1].children[0].value),
-                    hrsProBono: Number(tableRows[i].children[2].children[0].value),
-                    isExcluded: Boolean(tableRows[i].children[3].children[0].checked),
-                }
-                t.push(row);
-            }
-            return t;
-        })()
+        let startMonth = model.data.startMonth;
     
         let currentMonthShifted = currentMonth > startMonth ? currentMonth - startMonth 
                                                     : currentMonth + 12 - startMonth;
@@ -296,15 +294,15 @@ let calcs = {
                 let result =0;
                 calcs.monthsFuture = [];
                 calcs.monthsPast = [];
-                for (i=0; i<tbl.length; i++){
+                for (i=0; i<table.data.length; i++){
                     
                     if (i >= currentMonthShifted){
                         result++;
-                        calcs.monthsFuture.push(tbl[i].monthId);
-                        tbl[i].isPast = false;
+                        calcs.monthsFuture.push(table.data[i].monthId);
+                        table.data[i].isPast = false;
                     } else {
-                        calcs.monthsPast.push(tbl[i].monthId);
-                        tbl[i].isPast = true;
+                        calcs.monthsPast.push(table.data[i].monthId);
+                        table.data[i].isPast = true;
                     }
                 }
                 calcs.monthsRemaining = result;
@@ -314,16 +312,16 @@ let calcs = {
                 calcs.hrsLoggedBillable = 0;
                 calcs.hrsLoggedProBono = 0;
     
-                for(i = 0; i<tbl.length; i++){
-                    calcs.hrsLoggedBillable += tbl[i].hrsBillable;
-                    calcs.hrsLoggedProBono += tbl[i].hrsProBono;
+                for(i = 0; i<table.data.length; i++){
+                    calcs.hrsLoggedBillable += table.data[i].hrsBillable;
+                    calcs.hrsLoggedProBono += table.data[i].hrsProBono;
                 }
             })();
             
             let setMonthsexclude = (function(){
                 calcs.monthsExclude = 0;
-                for (i=0; i<tbl.length;i++){
-                    if(tbl[i].isExcluded){
+                for (i=0; i<table.data.length;i++){
+                    if(table.data[i].isExcluded){
                         calcs.monthsExclude++;
                     }
                 }
@@ -334,15 +332,15 @@ let calcs = {
                 calcs.monthsWithHoursFuture = 0;
                 calcs.monthsWithoutHoursPast = 0;
     
-                for (i= 0; i<tbl.length; i++){
-                    if(tbl[i].hrsBillable > 0){
+                for (i= 0; i<table.data.length; i++){
+                    if(table.data[i].hrsBillable > 0){
                         calcs.monthsWithHoursAll++;
     
-                        if(tbl[i].isPast === false){
+                        if(table.data[i].isPast === false){
                             calcs.monthsWithHoursFuture++;
                         }
                     } else {
-                        if(tbl[i].isPast === true){
+                        if(table.data[i].isPast === true){
                             calcs.monthsWithoutHoursPast++;
                         }
                     }
@@ -352,10 +350,10 @@ let calcs = {
             let setHrsCounted= (function(){
                 calcs.hrsCountedBillable = 0;
                 calcs.hrsCountedProBono = 0;
-                for (i=0; i<tbl.length; i++){
-                    if(tbl[i].isExcluded == false && tbl[i].isPast == true){
-                        calcs.hrsCountedBillable += tbl[i].hrsBillable;
-                        calcs.hrsCountedProBono += tbl[i].hrsProBono;
+                for (i=0; i<table.data.length; i++){
+                    if(table.data[i].isExcluded == false && table.data[i].isPast == true){
+                        calcs.hrsCountedBillable += table.data[i].hrsBillable;
+                        calcs.hrsCountedProBono += table.data[i].hrsProBono;
                     }
                 }
             })();
@@ -364,28 +362,25 @@ let calcs = {
     
         { //funcs that DO rely on other calcs
             let setHrsexclude= (function(){
-                // hrs req / 12 * excludeMonths
-                calcs.hrsExclude = (data.hoursRequirement / 12)*calcs.monthsExclude;
-                calcs.hrsProBonoexclude = (data.hoursAllowableProBono / 12)*calcs.monthsExclude;
+                calcs.hrsExclude = (model.data.hoursRequirement / 12)*calcs.monthsExclude;
+                calcs.hrsProBonoexclude = (model.data.hoursAllowableProBono / 12)*calcs.monthsExclude;
             })();
     
             let setHrsLeft= (function(){
-                calcs.updatedReq.billable = data.hoursRequirement - calcs.hrsExclude;
-                calcs.updatedReq.proBono = data.hoursAllowableProBono - calcs.hrsProBonoexclude
+                calcs.updatedReq.billable = model.data.hoursRequirement - calcs.hrsExclude;
+                calcs.updatedReq.proBono = model.data.hoursAllowableProBono - calcs.hrsProBonoexclude
     
                 calcs.hrsToGoBillable = calcs.updatedReq.billable - calcs.hrsCountedBillable - calcs.hrsCountedProBono;
                 calcs.hrsLeftProBono = calcs.updatedReq.proBono - calcs.hrsCountedProBono;            
             })();
     
             let setHrsLeft_PerMonth= (function(){
-                // calcs.hrsLeft_PerMonth = (calcs.hrsToGoBillable - (calcs.hrsLoggedBillable - hrsCountedBillable) )/ (calcs.monthsRemaining - calcs.monthsWithHoursFuture);
-    
                 let hours = calcs.hrsToGoBillable;
                 let months = calcs.monthsRemaining;
     
-                for (i = 0; i<tbl.length; i++){
-                    if(tbl[i].isPast == false && tbl[i].hrsBillable > 0 && !tbl[i].isExcluded){
-                        hours -= tbl[i].hrsBillable;
+                for (i = 0; i<table.data.length; i++){
+                    if(table.data[i].isPast == false && table.data[i].hrsBillable > 0 && !table.data[i].isExcluded){
+                        hours -= table.data[i].hrsBillable;
                         months--;
                     }
                 }
@@ -404,18 +399,18 @@ let calcs = {
             data_donut_hours = [];
             let hrsFutureProBono = 0;
     
-            for (i=0; i<tbl.length; i++){
-                if(tbl[i].isExcluded){
+            for (i=0; i<table.data.length; i++){
+                if(table.data[i].isExcluded){
                     data_donut_hours.push(0);
-                } else if(tbl[i].isPast == true){
-                    data_donut_hours.push(Math.ceil(tbl[i].hrsBillable));
+                } else if(table.data[i].isPast == true){
+                    data_donut_hours.push(Math.ceil(table.data[i].hrsBillable));
                 } else { 
-                    if(tbl[i].hrsBillable > 0){
-                        data_donut_hours.push(Math.ceil(tbl[i].hrsBillable));
+                    if(table.data[i].hrsBillable > 0){
+                        data_donut_hours.push(Math.ceil(table.data[i].hrsBillable));
                     } else {
                         data_donut_hours.push(Math.ceil(calcs.hrsLeft_PerMonth));
                     }
-                    hrsFutureProBono += tbl[i].hrsProBono;
+                    hrsFutureProBono += table.data[i].hrsProBono;
                 }
             }
             
@@ -427,16 +422,15 @@ let calcs = {
         
             let updateDonut= (function(){ 
                 for (let i= 0; i<12; i++){
-                    let num = Number(data.startMonth) +i;
+                    let num = Number(model.data.startMonth) +i;
                     if (num > 12) {
                         num -= 12;
                     }
             
-                    // donut.data.datasets[0].labels[i] = switchMonthNumToString(num);
-                    donut.data.datasets[0].labels[i] = switchMonthNumToString(tbl[i].monthId);
+                    donut.data.datasets[0].labels[i] = switchMonthNumToString(table.data[i].monthId);
     
                     if(i>=(12-calcs.monthsRemaining)){
-                        if (tbl[i].hrsBillable >0){
+                        if (table.data[i].hrsBillable >0){
                             donut.data.datasets[0].backgroundColor[i] = CHART_COLORS.prelimine_Orange_Light;
                         } else {
                             donut.data.datasets[0].backgroundColor[i] = CHART_COLORS.prelimine_Gray;
@@ -518,42 +512,35 @@ function addListeners(){
     input.excludeMonths.addEventListener('change', handleChange);
     input.table.addEventListener('change', handleChange_table);
 }
-//#endregion
 
-//#region hanlders
 function handleChange(e){
-    data.update();
+    model.update();
     table.update();
     calcs.update();
     output.update();
 }
 
 function handleChange_table(e){
-    data.update();
+    model.update();
     // updateTable();
     calcs.update();
     output.update();
 }
-//#endregion
-//#region Update and storage
-//#endregion
 
-
-//#region Load and Test
 let Load = (function(){
     table.setUp();
     addListeners();
 
     console.log("Getting from Local Storage")
     if(localStorage.getItem("hrsCalculator")){
-        data = JSON.parse(localStorage.getItem("hrsCalculator"));
+        model.data = JSON.parse(localStorage.getItem("hrsCalculator"));
         
-        input.hoursRequirement.value = data.hoursRequirement;
-        input.hoursAllowableProBono.value = data.hoursAllowableProBono;
-        input.billableYearMonthPicker.value = data.startMonth;
-        input.excludeMonths.checked = data.excludeMonths;
+        input.hoursRequirement.value = model.data.hoursRequirement;
+        input.hoursAllowableProBono.value = model.data.hoursAllowableProBono;
+        input.billableYearMonthPicker.value = model.data.startMonth;
+        input.excludeMonths.checked = model.data.excludeMonths;
 
-        console.log(data);
+        console.log(model.data);
         // updateData();
         table.update();
         calcs.update();
@@ -562,14 +549,14 @@ let Load = (function(){
     } else {
         console.log("Hours Calculator local information not found");
 
-        data.hoursRequirement = 0;
-        data.hoursAllowableProBono = 0;
-        data.startMonth = 0;
+        model.data.hoursRequirement = 0;
+        model.data.hoursAllowableProBono = 0;
+        model.data.startMonth = 0;
 
         table.update();
     }
 
-    showExcluded(data.excludeMonths);
+    showExcluded(model.data.excludeMonths);
 
     // changeVisibility('outputs-data', 'outputs-visibility');
 })();
@@ -585,52 +572,47 @@ let test = {
     setData: function (option){
         switch (option) {
             case 0:
-                data.startMonth = 0;
-                data.hoursRequirement = 1200;
-                data.hoursAllowableProBono = 100;
-                data.hours.billable = [0,0,0,0,0,0,0,0,0,0,0,0];
-                data.hours.proBono = [0,0,0,0,0,0,0,0,0,0,0,0];
-                data.excludeMonths = true;
-                data.hours.excluded =[false,false,false,false,false,false,false,false,false,false,false,false];
+                model.data.startMonth = 0;
+                model.data.hoursRequirement = 1200;
+                model.data.hoursAllowableProBono = 100;
+                model.data.hours.billable = [0,0,0,0,0,0,0,0,0,0,0,0];
+                model.data.hours.proBono = [0,0,0,0,0,0,0,0,0,0,0,0];
+                model.data.excludeMonths = true;
+                model.data.hours.excluded =[false,false,false,false,false,false,false,false,false,false,false,false];
                 break;
             case 1:
-                data.startMonth = 0;
-                data.hoursRequirement = 1200;
-                data.hoursAllowableProBono = 120;
-                data.hours.billable = [100,100,100,100,100,100,100,100,100,100,100,100];
-                data.hours.proBono = [10,10,10,10,10,10,10,10,10,10,10,10];
-                data.excludeMonths = true;
-                data.hours.excluded =[false,false,false,false,false,false,false,false,false,false,false,false];
+                model.data.startMonth = 0;
+                model.data.hoursRequirement = 1200;
+                model.data.hoursAllowableProBono = 120;
+                model.data.hours.billable = [100,100,100,100,100,100,100,100,100,100,100,100];
+                model.data.hours.proBono = [10,10,10,10,10,10,10,10,10,10,10,10];
+                model.data.excludeMonths = true;
+                model.data.hours.excluded =[false,false,false,false,false,false,false,false,false,false,false,false];
                 break;
             case 2:
-                data.startMonth = currentMonth == 0? 11: currentMonth -1;
-                data.hoursRequirement = 2400;
-                data.hoursAllowableProBono = 200;
-                data.hours.billable = [100,200,100,200,100,200,100,200,100,200,100,200];
-                data.hours.proBono = [20,10,20,10,20,10,20,10,20,10,20,10];
-                data.excludeMonths = true;
-                data.hours.excluded =[false,false,false,false,false,false,false,false,false,false,false,false];
+                model.data.startMonth = currentMonth == 0? 11: currentMonth -1;
+                model.data.hoursRequirement = 2400;
+                model.data.hoursAllowableProBono = 200;
+                model.data.hours.billable = [100,200,100,200,100,200,100,200,100,200,100,200];
+                model.data.hours.proBono = [20,10,20,10,20,10,20,10,20,10,20,10];
+                model.data.excludeMonths = true;
+                model.data.hours.excluded =[false,false,false,false,false,false,false,false,false,false,false,false];
                 break;
             case "f1":
-                data.startMonth = 1;
-                data.hoursRequirement = 2100;
-                data.hoursAllowableProBono = 100;
-                data.hours.billable = [194, 190, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                data.hours.proBono = [0,0,0,0,0,0,0,0,0,0,0,0];
-                data.excludeMonths = true; 
-                data.hours.excluded = [true, true, false, false, false, false, false, false, false, false, false, false];
+                model.data.startMonth = 1;
+                model.data.hoursRequirement = 2100;
+                model.data.hoursAllowableProBono = 100;
+                model.data.hours.billable = [194, 190, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                model.data.hours.proBono = [0,0,0,0,0,0,0,0,0,0,0,0];
+                model.data.excludeMonths = true; 
+                model.data.hours.excluded = [true, true, false, false, false, false, false, false, false, false, false, false];
                 break;
             
             default:
                 return "Input Options: 0, 1, 2, 'f1'";
         }
         
-        // localStorage.setItem("hrsCalculator", JSON.stringify(data));
         test.load();
         return "Test: localStorage not set";
     }
 };
-
-
-
-//#endregion
