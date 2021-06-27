@@ -300,7 +300,6 @@ let calcs = {
 
     update: function (){
         console.log(`Updating Calcs`);
-        let tableRows = input.tableRows;
         let startMonth = model.data.startMonth;
     
         let currentMonthShifted = currentMonth > startMonth ? currentMonth - startMonth 
@@ -530,7 +529,6 @@ const input = {
     },
     
     handleChange: function(e){
-        console.log("a");
         model.update();
         table.update();
         calcs.update();
@@ -573,77 +571,3 @@ let Load = (function(){
 
     // changeVisibility('outputs-data', 'outputs-visibility');
 })();
-
-let test = {
-    setData: function (option){
-        switch (option) {
-            case 0:
-                model.data.startMonth = 0;
-                model.data.hoursRequirement = 1200;
-                model.data.hoursAllowableProBono = 100;
-                model.data.hours.billable = [0,0,0,0,0,0,0,0,0,0,0,0];
-                model.data.hours.proBono = [0,0,0,0,0,0,0,0,0,0,0,0];
-                model.data.excludeMonths = true;
-                model.data.hours.excluded =[false,false,false,false,false,false,false,false,false,false,false,false];
-                break;
-            case 1:
-                model.data.startMonth = 0;
-                model.data.hoursRequirement = 1200;
-                model.data.hoursAllowableProBono = 120;
-                model.data.hours.billable = [100,100,100,100,100,100,100,100,100,100,100,100];
-                model.data.hours.proBono = [10,10,10,10,10,10,10,10,10,10,10,10];
-                model.data.excludeMonths = true;
-                model.data.hours.excluded =[false,false,false,false,false,false,false,false,false,false,false,false];
-                break;
-            case 2:
-                model.data.startMonth = currentMonth == 0? 11: currentMonth -1;
-                model.data.hoursRequirement = 2400;
-                model.data.hoursAllowableProBono = 200;
-                model.data.hours.billable = [100,200,100,200,100,200,100,200,100,200,100,200];
-                model.data.hours.proBono = [20,10,20,10,20,10,20,10,20,10,20,10];
-                model.data.excludeMonths = true;
-                model.data.hours.excluded =[false,false,false,false,false,false,false,false,false,false,false,false];
-                break;
-            case "f1":
-                model.data.startMonth = 1;
-                model.data.hoursRequirement = 2100;
-                model.data.hoursAllowableProBono = 100;
-                model.data.hours.billable = [194, 190, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-                model.data.hours.proBono = [0,0,0,0,0,0,0,0,0,0,0,0];
-                model.data.excludeMonths = true; 
-                model.data.hours.excluded = [true, true, false, false, false, false, false, false, false, false, false, false];
-                break;
-            case "f2 negative pro bono counted":
-                model.data.startMonth = 7;
-                model.data.hoursRequirement = 2100;
-                model.data.hoursAllowableProBono = 100;
-                model.data.excludeMonths = false;
-                model.data.hours.billable= [145, 156, 180, 156, 170, 0, 0, 150.3, 140, 144, 200, 120]
-                model.data.hours.proBono= [10, 17, 18, 20, 17, 0, 0, 3.3, 22, 32, 0, 60];
-                model.data.hours.excluded = [false, false, false, false, false, false, false, false, false, false, false, false];
-                break;
-            case "f3 pro bono hours in future toward avg":
-                model.data.startMonth = 7;
-                model.data.hoursRequirement = 1900;
-                model.data.hoursAllowableProBono = 100;
-                model.data.excludeMonths = false;
-                model.data.hours.billable= [0,0,0,0,180,156,0,0,0,0,0,0];
-                model.data.hours.proBono= [0,0,0,0,75,50,0,0,0,0,0,0];
-                model.data.hours.excluded = [false, false, false, false, false, false, false, false, false, false, false, false];
-                break;
-
-            default:
-                return "Input Options: 0, 1, 2, 'f1', 'f2 negative pro bono counted', 'f3 pro bono hours in future toward avg'";
-        }
-        
-        let loadData = (function(){
-            // model.update();
-            input.update();
-            table.update();
-            calcs.update();
-            output.update();
-        })();
-
-        return "Test: localStorage not set";
-    }
-};
