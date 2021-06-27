@@ -201,7 +201,7 @@ function runTests(){
                 console.log(`%cTest: ${z} ${test.shortDesc} ${result}`, 'background: #FF6666; color: #222');
                 testsFailed++;
             } else {
-                console.log(`%cTest: ${z} ${result}`, 'background: #bada55; color: #222');
+                console.log(`%cTest: ${z} ${test.shortDesc} ${result}`, 'background: #bada55; color: #222');
                 testsPassed++;
             }
 
