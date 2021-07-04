@@ -157,8 +157,8 @@ let table = {
             input.table.children[1].innerHTML += rowTemplate;
         }
     },
-    update: function () {
-        console.log(`Updating Table`);
+    update: function (showLog) {
+        showLog != null ? "" : console.log(`Updating Table`);
         let t = [];
 
         for (let i = 0; i < 12; i++) {
@@ -245,8 +245,8 @@ let model = {
         },
     },
 
-    update: function (){
-        console.log(`Updating Data`);
+    update: function (showLog){
+        showLog != null ? "" : console.log(`Updating Data`);
         model.data.hoursAllowableProBono = Number(input.hoursAllowableProBono.value);
         model.data.hoursRequirement = Number(input.hoursRequirement.value);
         model.data.excludeMonths = input.excludeMonths.checked;
@@ -262,8 +262,8 @@ let model = {
     
         model.data.startMonth = Number(input.billableYearMonthPicker.value);
     
-        console.log(model.data);
-        console.log("Setting Local Storage");
+        showLog != null ? "" : console.log(model.data);
+        showLog != null ? "" : console.log("Setting Local Storage");
         localStorage.setItem("hrsCalculator", JSON.stringify(model.data));
     }
     
@@ -298,8 +298,8 @@ let calcs = {
 
     // hrsAdjustedBillable: undefined,
 
-    update: function (){
-        console.log(`Updating Calcs`);
+    update: function (showLog){
+        showLog != null ? "" : console.log(`Updating Calcs`);
         let startMonth = model.data.startMonth;
     
         let currentMonthShifted = currentMonth > startMonth ? currentMonth - startMonth 
@@ -467,7 +467,7 @@ let calcs = {
             })()       
         })();
     
-        console.log(calcs);
+        showLog != null ? "" : console.log(calcs);
     }
     
 };
@@ -490,8 +490,8 @@ const output = {
 
     hrsBig: document.getElementById('hrs'),
 
-    update: function () {
-        console.log("Updating Output");
+    update: function (showLog) {
+        showLog != null ? "" : console.log("Updating Output");
         output.hrsLeft_PerMonth.textContent = Math.ceil(calcs.hrsLeft_PerMonth);
         output.monthsRemaining.textContent = Math.ceil(calcs.monthsRemaining);
         output.hrsLoggedBillable.textContent = Math.ceil(calcs.hrsLoggedBillable);
@@ -542,23 +542,23 @@ const input = {
     }
 }
 
-let Load = (function(){
+let Load = (function(showLog){
     table.setUp();
     input.addListeners();
 
-    console.log("Getting from Local Storage")
+    showLog != null ? "" : console.log("Getting from Local Storage")
     if(localStorage.getItem("hrsCalculator")){
         model.data = JSON.parse(localStorage.getItem("hrsCalculator"));
         
         input.update();
-        console.log(model.data);
+        showLog != null ? "" : console.log(model.data);
         // model.update();
         table.update();
         calcs.update();
         output.update();
 
     } else {
-        console.log("Hours Calculator local information not found");
+        showLog != null ? "" : console.log("Hours Calculator local information not found");
 
         model.data.hoursRequirement = 0;
         model.data.hoursAllowableProBono = 0;
