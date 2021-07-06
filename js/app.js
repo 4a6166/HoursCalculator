@@ -1,3 +1,9 @@
+/* 
+ * © Copyright 2021, Prelimine LLC., All rights reserved. 
+ * Use and reproduction of code associted with Prelimine or the Prelimine Hours Calculator is subject to the applicable licensing agreement.
+ * Reproduction or distribution is allowed on the conditions that 1) attribution is provided in the title line of the application; 2) the application contains an clear backlink to prelimine.com; and 3) no modifications are made to the operation of the program. Aesthetic modfications are allowed.
+ */
+
 console.log("Welcome to Prelimine's Hours Calculator");
 
 function changeVisibility(elementId, buttonID){
