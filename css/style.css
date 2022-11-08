@@ -45,6 +45,10 @@ body {
 }
 
 .wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content:center;
+  min-height: 100vh;
     margin: auto 5px;
     max-width: 1200px;
 }
